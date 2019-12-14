@@ -134,24 +134,6 @@ func sendHelloReplyMsg(senderName tbMessages.NameId, msg *tbMessages.TBmessage) 
 }
 
 //============================================================================
-// Create a SwapIn message (to send to experiment master)
-//============================================================================
-func TBswapinMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create SwapIn msg, mBody=", mBody)
-	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_SWAPIN, mBody)
-	return msg
-}
-
-//============================================================================
-// Create a SwapIn message (to send to experiment master)
-//============================================================================
-func TBswapoutMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create Swapout msg, mBody=", mBody)
-	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_SWAPOUT, mBody)
-	return msg
-}
-
-//============================================================================
 // Create a Hello message (to send to office mgr)
 //============================================================================
 func TBmsgSample(myName, receiver tbMessages.NameId, mBody string) []byte {

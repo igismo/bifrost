@@ -60,9 +60,9 @@ var sliceOfSatellites []tbMessages.TBmgr
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
+			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
+			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -139,6 +139,13 @@ func main() {
 
 	fmt.Printf("OUTPUT=\n%v\n", string(output))
 	fmt.Printf("%v\n", "END EXEC -----------------------------\n")
+	var posInfo = satRouteInfo[0] // set for all sats in time position, 4 sets
+	var satInfo = posInfo[0]      // slice of commands for sat in position x
+	fmt.Printf("SAT INFO=%s\n", satInfo)
+	msgBody, _ := tbJsonUtils.TBmarshal(satInfo)
+	var receiver tbMessages.NameId = tbMessages.NameId{}
+	newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
+	fmt.Printf("SAT MSG=%s\n", newMsg)
 	///////
 	masterLog.DebugLog = true
 	masterLog.WarningLog = true
@@ -150,8 +157,7 @@ func main() {
 
 		officeMasterInit()
 
-		masterTicker := time.NewTicker(15 * time.Second)
-
+		masterTicker := time.NewTicker(5 * time.Second)
 		go func() {
 			// fmt.Println(masterName,"MAIN: Starting a new ticker....")
 			for t := range masterTicker.C {
@@ -259,10 +265,22 @@ func officeMasterInit() {
 //=======================================================================
 //
 //=======================================================================
+var LastRouteUpdateTime time.Time = time.Now()
+var LastKeepAliveTime time.Time = time.Now()
+
 func MasterPeriodicFunc(tick time.Time) {
 	// GS send keepAlive messages at whatever interval
 	_, _ = fmt.Println(masterName, "Tick at: ", tick)
-	sendKeepAliveMsg()
+	var duration1 time.Duration = tick.Sub(LastKeepAliveTime)
+	if duration1.Seconds() > 20 {
+		LastKeepAliveTime = tick
+		sendKeepAliveMsg()
+	}
+	var duration2 time.Duration = tick.Sub(LastRouteUpdateTime)
+	if duration2.Seconds() > 10 {
+		LastRouteUpdateTime = tick
+		sendRoutingUpdate()
+	}
 }
 
 //=================================================
@@ -547,28 +565,44 @@ func sendCommandListMsg() {
 // This should be triggered by periodic timer .... on timer tick move to next position
 // and update all routing tables
 //====================================================================================
-func sendRoutingUpdate() {
-	var names = ""
+var TimePosition = 1
 
-	for mgrIndex := range sliceOfSatellites {
+func sendRoutingUpdate() {
+	// var names = ""
+	for mgrIndex := range sliceOfSatellites { // for all Sats we know
 		// they may not be in order abcd
 		// might be better to just use satRouteInfo [] for position index
 		receiver := sliceOfSatellites[mgrIndex].Name
+		satIndex := 1000
+		if receiver.Name == "SatA" {
+			satIndex = 0
+		}
+		if receiver.Name == "SatB" {
+			satIndex = 1
+		}
+		if receiver.Name == "SatC" {
+			satIndex = 2
+		}
+		if receiver.Name == "SatD" {
+			satIndex = 3
+		}
+
 		if receiver.Name != masterName { // Do not send to self
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
-			// for a position
-			// for each sattelite
-			var posInfo = satRouteInfo[0] // set for all sats in time position, 4 sets
-			var satInfo = posInfo[0]      // slice of commands for sat in position x
-			var cmd = satInfo[0]          // single command
+			var posInfo = satRouteInfo[TimePosition] // set for all sats in time position, 4 sets
+			var satInfo = posInfo[satIndex]          // slice of commands for sat in position x
+			// var cmd = satInfo[0]                  // single command
 			var cmdNum = len(satInfo)
-			var posNum = len(satRouteInfo)
-
+			fmt.Println(masterName, ": Routing sent to Satellites=", receiver.Name, " #cmnds=", cmdNum, " Pos=", TimePosition)
 			msgBody, _ := tbJsonUtils.TBmarshal(satInfo)
 			newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
 			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
-			names += " " + receiver.Name
+			//names += " " + receiver.Name
 		}
 	}
-	fmt.Println(masterName, ": Routing sent to Satellites=", names)
+
+	TimePosition += 1
+	if TimePosition == 5 {
+		TimePosition = 1
+	}
 }
