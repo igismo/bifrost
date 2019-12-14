@@ -51,6 +51,70 @@ var masterLog = tbLogUtils.LogInstance{}
 // var masterTicker      *time.Ticker = nil
 var sliceOfSatellites []tbMessages.TBmgr
 
+//--------------- -----------------
+// ROUTE AND INTERFACE CHANGES
+//---------------------------------
+// type CommandList         [] LinuxCommand
+// type SatRouteTableChange [] CommandList	// each set is per sat, list of commands
+// type ConstPosition       [] SatRouteTableChange // one set per sattelite
+
+//var satRoutePosition1 = []tbMessages.CommandList {// each set is per sat, list of commands
+//tbMessages.CommandList { // SatA position
+//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
+//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
+//},
+//tbMessages.CommandList { // SatB position 1
+//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
+//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
+//},
+//}
+//var satRoutePosition2 = []tbMessages.CommandList {}
+//var satRoutePosition3 = []tbMessages.CommandList {}
+//var satRoutePosition4 = []tbMessages.CommandList {}
+//
+//var satPositions = [] tbMessages.SatRouteTableChange{ // one set per sattelite per position
+//satRoutePosition1,
+//satRoutePosition2,
+//satRoutePosition3,
+//satRoutePosition4,/
+//}
+
+var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
+	tbMessages.SatRouteTableChange{ // Position 1
+		tbMessages.CommandList{ // Sat A
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat B
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat C
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat D
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+	},
+	tbMessages.SatRouteTableChange{ // Position 2
+		tbMessages.CommandList{ // Sat A
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat B
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat C
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat D
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+	},
+}
+
+// var len = len(satRouteInfo[0][0])
+// var cmd = satRouteInfo[0][1][0]
+
 //=======================================================================
 // Enry point for the office Master
 // Note that the log is created, but logging is stil outstanding work
@@ -497,4 +561,29 @@ func sendKeepAliveMsg() {
 		}
 		fmt.Println(masterName, ": KNOWN Satellites=", names)
 	}
+}
+
+func sendCommandListMsg() {
+	//msgBody, _ := tbJsonUtils.TBmarshal(commandList)
+}
+
+//====================================================================================
+// send routing update commands to all sattelites
+//====================================================================================
+func sendRoutingUpdate() {
+	var names = ""
+
+	for mgrIndex := range sliceOfSatellites {
+		receiver := sliceOfSatellites[mgrIndex].Name
+		if receiver.Name != masterName { // Do not send to self
+			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
+			// for a position
+			// for each sattelite
+			msgBody, _ := tbJsonUtils.TBmarshal(commandList)
+			newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
+			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
+			names += " " + receiver.Name
+		}
+	}
+	fmt.Println(masterName, ": Routing sent to Satellites=", names)
 }
