@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ff2ab23-3d7c-4187-bf9e-ec2f02eb747d" name="Default Changelist" comment="" />
+    <list default="true" id="8ff2ab23-3d7c-4187-bf9e-ec2f02eb747d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/biMaster.go" beforeDir="false" afterPath="$PROJECT_DIR$/biMaster.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tbMessages/tbMessages.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/tbMessages/tbMessages.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tbMsgUtils/tbMsgUtils.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/tbMsgUtils/tbMsgUtils.go" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -9,11 +15,13 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="GOROOT" path="/usr/local/go" />
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="02a695d9-c100-461d-b272-e40f99db60ad" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1SXZb8mnreYiwbqNfB9Xbky8PFE" />
   <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
@@ -80,5 +88,22 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="dec 10 changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="dec 10 changes" />
   </component>
 </project>
