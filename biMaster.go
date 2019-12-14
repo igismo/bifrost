@@ -544,11 +544,15 @@ func sendCommandListMsg() {
 
 //====================================================================================
 // send routing update commands to all sattelites
+// This should be triggered by periodic timer .... on timer tick move to next position
+// and update all routing tables
 //====================================================================================
 func sendRoutingUpdate() {
 	var names = ""
 
 	for mgrIndex := range sliceOfSatellites {
+		// they may not be in order abcd
+		// might be better to just use satRouteInfo [] for position index
 		receiver := sliceOfSatellites[mgrIndex].Name
 		if receiver.Name != masterName { // Do not send to self
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
