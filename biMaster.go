@@ -558,7 +558,7 @@ func sendRoutingUpdate() {
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
 			// for a position
 			// for each sattelite
-			var posInfo = satRouteInfo[0] // set for all sats in time position
+			var posInfo = satRouteInfo[0] // set for all sats in time position, 4 sets
 			var satInfo = posInfo[0]      // slice of commands for sat in position x
 			var cmd = satInfo[0]          // single command
 			var cmdNum = len(satInfo)
