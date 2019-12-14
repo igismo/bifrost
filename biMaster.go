@@ -56,29 +56,7 @@ var sliceOfSatellites []tbMessages.TBmgr
 //---------------------------------
 // type CommandList         [] LinuxCommand
 // type SatRouteTableChange [] CommandList	// each set is per sat, list of commands
-// type ConstPosition       [] SatRouteTableChange // one set per sattelite
-
-//var satRoutePosition1 = []tbMessages.CommandList {// each set is per sat, list of commands
-//tbMessages.CommandList { // SatA position
-//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
-//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
-//},
-//tbMessages.CommandList { // SatB position 1
-//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
-//tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2:"", Par3:"", Par4:"",Par5:"", Par6:""},
-//},
-//}
-//var satRoutePosition2 = []tbMessages.CommandList {}
-//var satRoutePosition3 = []tbMessages.CommandList {}
-//var satRoutePosition4 = []tbMessages.CommandList {}
-//
-//var satPositions = [] tbMessages.SatRouteTableChange{ // one set per sattelite per position
-//satRoutePosition1,
-//satRoutePosition2,
-//satRoutePosition3,
-//satRoutePosition4,/
-//}
-
+// type ConstPosition       [] SatRouteTableChange // one set per position
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
@@ -111,9 +89,6 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 		},
 	},
 }
-
-// var len = len(satRouteInfo[0][0])
-// var cmd = satRouteInfo[0][1][0]
 
 //=======================================================================
 // Enry point for the office Master
@@ -579,7 +554,13 @@ func sendRoutingUpdate() {
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
 			// for a position
 			// for each sattelite
-			msgBody, _ := tbJsonUtils.TBmarshal(commandList)
+			var posInfo = satRouteInfo[0] // set for all sats in time position
+			var satInfo = posInfo[0]      // slice of commands for sat in position x
+			var cmd = satInfo[0]          // single command
+			var cmdNum = len(satInfo)
+			var posNum = len(satRouteInfo)
+
+			msgBody, _ := tbJsonUtils.TBmarshal(satInfo)
 			newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
 			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
 			names += " " + receiver.Name
