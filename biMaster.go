@@ -595,7 +595,7 @@ func sendRoutingUpdate() {
 			var cmdNum = len(satInfo)
 			fmt.Println(masterName, ": Routing sent to Satellites=", receiver.Name, " #cmnds=", cmdNum, " Pos=", TimePosition)
 			msgBody, _ := tbJsonUtils.TBmarshal(satInfo)
-			newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
+			newMsg := tbMsgUtils.BiRouteUpdateMsg(masterFullName, receiver, string(msgBody))
 			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
 			//names += " " + receiver.Name
 		}

@@ -33,7 +33,7 @@ func TBtimestamp() int64 {
 func TBsendMsgOut(msgOut []byte, udpAddress net.UDPAddr, udpConnection *net.UDPConn) {
 
 	if udpConnection != nil { // returns numBytes, err
-		udpConnection.WriteToUDP(msgOut, &udpAddress)
+		_, _ = udpConnection.WriteToUDP(msgOut, &udpAddress)
 	} else {
 		fmt.Println("ERROR Sending Out to", udpAddress, ": udpConnection = nil")
 	}
@@ -86,11 +86,20 @@ func TBkeepAliveMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 //============================================================================
 // Create a Hello message (to send to office mgr)
 //============================================================================
-func BiCommandListMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create COMMANDS msg, mBody=", mBody)
+func BiRouteUpdateMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
+	fmt.Println("MsgUtils: create Route Update for ", receiver, " mBody=", mBody)
 	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_CMD, mBody)
 	return msg
 }
+
+//============================================================================
+// Create a
+//============================================================================
+//func BiCommandListMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
+//	fmt.Println("MsgUtils: create COMMANDS msg, mBody=", mBody)
+//	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_CMD, mBody)
+//	return msg
+//}
 
 //============================================================================
 // Create a Hello message (to send to office mgr)
