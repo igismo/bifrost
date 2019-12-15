@@ -1,4 +1,3 @@
-
 //=============================================================================
 // FILE NAME: tbConfig.go
 // DESCRIPTION: configuration, IP addresses, ...
@@ -18,14 +17,11 @@ import (
 )
 
 //# Configure variables
-var TBDIR     		   	= "/Users/scuric/go/src/bifrost"
-var TBlogPath           = TBDIR + "/log/"
-var TBversion           = time.Now()
+var TBDIR = "/Users/scuric/go/src/bifrost"
+var TBlogPath = TBDIR + "/log/"
+var TBversion = time.Now()
 
 //strconv.FormatInt(tbMsgUtils.TBtimestamp(),10)
 
-var BifrostPort       = "1200"
-
-
-
-
+var BifrostMasterPort = "1200"
+var BifrostSatPort = "1201"

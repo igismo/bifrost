@@ -63,6 +63,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
 			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
 			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -76,7 +77,44 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 2
 		tbMessages.CommandList{ // Sat A
+			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
+			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
+			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+		},
+		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat C
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat D
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+	},
+	tbMessages.SatRouteTableChange{ // Position 3
+		tbMessages.CommandList{ // Sat A
+			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
+			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
+			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+		},
+		tbMessages.CommandList{ // Sat B
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat C
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+		tbMessages.CommandList{ // Sat D
+			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+		},
+	},
+	tbMessages.SatRouteTableChange{ // Position 4
+		tbMessages.CommandList{ // Sat A
+			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
+			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
+			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -146,13 +184,14 @@ func main() {
 	var receiver tbMessages.NameId = tbMessages.NameId{}
 	newMsg := tbMsgUtils.TBkeepAliveMsg(masterFullName, receiver, string(msgBody))
 	fmt.Printf("SAT MSG=%s\n", newMsg)
+	sendRoutingUpdate()
 	///////
 	masterLog.DebugLog = true
 	masterLog.WarningLog = true
 	masterLog.ErrorLog = true
 	tbLogUtils.CreateLog(&masterLog, masterName)
 	masterLog.Warning(&masterLog, "this will be printed anyway")
-	if false {
+	if true {
 		officeMgrSetState(MasterInit)
 
 		officeMasterInit()
@@ -218,7 +257,7 @@ func officeMasterInit() {
 	// n, addr, err := conn.ReadFromUDP(buf[0:])
 	// conn.WriteToUDP([]byte(daytime), addr)
 	masterIpAddress = tbNetUtils.GetLocalIp()
-	masterIPandPort = masterIpAddress + ":" + tbConfig.BifrostPort
+	masterIPandPort = masterIpAddress + ":" + tbConfig.BifrostMasterPort
 	fmt.Println(masterName, "INIT: masterIpAddress=", masterIpAddress, " masterIPandPort=", masterIPandPort)
 
 	if masterConnection == nil {
@@ -565,14 +604,16 @@ func sendCommandListMsg() {
 // This should be triggered by periodic timer .... on timer tick move to next position
 // and update all routing tables
 //====================================================================================
-var TimePosition = 1
+var TimePosition = 0
 
 func sendRoutingUpdate() {
 	// var names = ""
+	fmt.Println(masterName, ": Number of Sats=", len(sliceOfSatellites))
 	for mgrIndex := range sliceOfSatellites { // for all Sats we know
 		// they may not be in order abcd
 		// might be better to just use satRouteInfo [] for position index
 		receiver := sliceOfSatellites[mgrIndex].Name
+		fmt.Println(masterName, ": Sat Name=", receiver, "---", receiver.Name)
 		satIndex := 1000
 		if receiver.Name == "SatA" {
 			satIndex = 0
@@ -586,7 +627,7 @@ func sendRoutingUpdate() {
 		if receiver.Name == "SatD" {
 			satIndex = 3
 		}
-
+		fmt.Println(masterName, ": satIndex=", satIndex, "mgrIndex=", mgrIndex, "TimePosition=", TimePosition)
 		if receiver.Name != masterName { // Do not send to self
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
 			var posInfo = satRouteInfo[TimePosition] // set for all sats in time position, 4 sets
@@ -602,7 +643,7 @@ func sendRoutingUpdate() {
 	}
 
 	TimePosition += 1
-	if TimePosition == 5 {
-		TimePosition = 1
+	if TimePosition == 4 {
+		TimePosition = 0
 	}
 }
