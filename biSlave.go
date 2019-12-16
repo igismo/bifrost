@@ -219,10 +219,11 @@ func RecvThread(conn *net.UDPConn, recvControlChannel <-chan []byte) error {
 
 		for {
 			recvBuffer := make([]byte, 3000)
-			length, oobn, flags, addr, err := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
+			// length, oobn, flags, addr, err := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
+			length, _, _, _, _ := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
 			myReceiveCount++
-			fmt.Println(myName, "\n============== Receive Count=", myReceiveCount,
-				"\nRecvThread UDP MSG from", addr, "len=", length, "oobLen=", oobn, "flags=", flags, "ERR=", err)
+			//fmt.Println(myName, "\n============== Receive Count=", myReceiveCount,
+			//	"\nRecvThread UDP MSG from", addr, "len=", length, "oobLen=", oobn, "flags=", flags, "ERR=", err)
 			// fmt.Println(myName,"RecvThread MSG=", string(recvBuffer[0:length]))
 
 			myRecvChannel <- recvBuffer[0:length]
@@ -321,7 +322,7 @@ func stateConnectedMessages(message []byte) {
 	_ = tbJsonUtils.TBunmarshal(message, &msg)
 
 	messageType := msg.MsgType
-	fmt.Println("RCVD MSG=", msg)
+	//fmt.Println("RCVD MSG=", msg)
 	switch messageType {
 	case tbMessages.MSG_TYPE_KEEPALIVE:
 		// GS set last hello received msg time to check within periodic timer
@@ -338,10 +339,19 @@ func stateConnectedMessages(message []byte) {
 	default:
 	}
 }
-func commandMessages(cmdMsg *tbMessages.TBmessage) {
-	fmt.Println("RCVD MSG=", cmdMsg)
+func commandMessages(msg *tbMessages.TBmessage) {
+	var cmds []tbMessages.LinuxCommand
+	_ = tbJsonUtils.TBunmarshal(msg.MsgBody, &cmds)
+	fmt.Println("RCVD COMMANDS=", cmds)
 	//
 	//
+	for cmdIndex := range cmds {
+		var cmd tbMessages.LinuxCommand
+		cmd = cmds[cmdIndex]
+		//fmt.Println("RCVD CMD ", cmdIndex, " =",cmd)
+		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5)
+	}
+	// var cmd = satInfo[0]
 }
 
 //====================================================================================

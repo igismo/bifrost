@@ -78,7 +78,7 @@ func TBConnectedMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 // Create a Hello message (to send to office mgr)
 //============================================================================
 func TBkeepAliveMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create KEEP ALIVE msg, mBody=", mBody)
+	//fmt.Println("MsgUtils: create KEEP ALIVE msg, mBody=", mBody)
 	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_KEEPALIVE, mBody)
 	return msg
 }
@@ -87,7 +87,7 @@ func TBkeepAliveMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 // Create a Hello message (to send to office mgr)
 //============================================================================
 func BiRouteUpdateMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create Route Update for ", receiver, " mBody=", mBody)
+	// fmt.Println("MsgUtils: create Route Update for ", receiver, " mBody=", mBody)
 	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_CMD, mBody)
 	return msg
 }
@@ -109,7 +109,7 @@ func BiRouteUpdateMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 // AND extract all of receivers fields
 
 func TBhelloMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create HELLO msg, mBody=", mBody)
+	//fmt.Println("MsgUtils: create HELLO msg, mBody=", mBody)
 	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_HELLO, mBody)
 	return msg
 }
@@ -127,7 +127,7 @@ func TBregisterMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 // Create a Hello message (to send to office mgr)
 //============================================================================
 func TBhelloReplyMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-	fmt.Println("MsgUtils: create HELLO REPPLY msg, mBody=", mBody)
+	//fmt.Println("MsgUtils: create HELLO REPPLY msg, mBody=", mBody)
 	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_HELLO_REPPLY, mBody)
 	return msg
 
@@ -158,6 +158,6 @@ func TBmsgSample(myName, receiver tbMessages.NameId, mBody string) []byte {
 	}
 
 	msg, _ := tbJsonUtils.TBmarshal(myMsg)
-	fmt.Println("JSON=", string(msg))
+	// fmt.Println("JSON=", string(msg))
 	return msg
 }

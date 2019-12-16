@@ -60,10 +60,10 @@ var sliceOfSatellites []tbMessages.TBmgr
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
-			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
-			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
-			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "A1", Par1: "B1", Par2: "C1", Par3: "D1", Par4: "E1", Par5: "F1", Par6: "G1"},
+			tbMessages.LinuxCommand{Cmd: "H1", Par1: "I1", Par2: "J1", Par3: "K1", Par4: "L1", Par5: "M1", Par6: "N1"},
+			tbMessages.LinuxCommand{Cmd: "O1", Par1: "P1", Par2: "Q1", Par3: "R1", Par4: "S1", Par5: "T1", Par6: "U1"},
+			tbMessages.LinuxCommand{Cmd: "X1", Par1: "Y1", Par2: "Z1", Par3: "R1", Par4: "S1", Par5: "T1", Par6: "U1"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -77,10 +77,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 2
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
-			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
-			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
-			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "A2", Par1: "B2", Par2: "C2", Par3: "D2", Par4: "E2", Par5: "F2", Par6: "G"},
+			tbMessages.LinuxCommand{Cmd: "H2", Par1: "I2", Par2: "J2", Par3: "K2", Par4: "L2", Par5: "M2", Par6: "N"},
+			tbMessages.LinuxCommand{Cmd: "O2", Par1: "P2", Par2: "Q2", Par3: "R2", Par4: "S2", Par5: "T2", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "X2", Par1: "Y2", Par2: "Z2", Par3: "R2", Par4: "S2", Par5: "T2", Par6: "U"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -94,10 +94,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 3
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
-			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
-			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
-			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "A3", Par1: "B3", Par2: "C3", Par3: "D3", Par4: "E3", Par5: "F3", Par6: "G3"},
+			tbMessages.LinuxCommand{Cmd: "H3", Par1: "I3", Par2: "J3", Par3: "K3", Par4: "L3", Par5: "M3", Par6: "N3"},
+			tbMessages.LinuxCommand{Cmd: "O3", Par1: "P3", Par2: "Q3", Par3: "R3", Par4: "S3", Par5: "T3", Par6: "U3"},
+			tbMessages.LinuxCommand{Cmd: "X3", Par1: "Y3", Par2: "Z3", Par3: "R3", Par4: "S3", Par5: "T3", Par6: "U3"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -111,10 +111,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 4
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A", Par1: "B", Par2: "C", Par3: "D", Par4: "E", Par5: "F", Par6: "G"},
-			tbMessages.LinuxCommand{Cmd: "H", Par1: "I", Par2: "J", Par3: "K", Par4: "L", Par5: "M", Par6: "N"},
-			tbMessages.LinuxCommand{Cmd: "O", Par1: "P", Par2: "Q", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
-			tbMessages.LinuxCommand{Cmd: "X", Par1: "Y", Par2: "Z", Par3: "R", Par4: "S", Par5: "T", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "A4", Par1: "B4", Par2: "C4", Par3: "D4", Par4: "E4", Par5: "F4", Par6: "G4"},
+			tbMessages.LinuxCommand{Cmd: "H4", Par1: "I4", Par2: "J4", Par3: "K4", Par4: "L4", Par5: "M4", Par6: "N4"},
+			tbMessages.LinuxCommand{Cmd: "O4", Par1: "P4", Par2: "Q4", Par3: "R4", Par4: "S4", Par5: "T4", Par6: "U4"},
+			tbMessages.LinuxCommand{Cmd: "X4", Par1: "Y4", Par2: "Z4", Par3: "R4", Par4: "S4", Par5: "T4", Par6: "U4"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -309,7 +309,7 @@ var LastKeepAliveTime time.Time = time.Now()
 
 func MasterPeriodicFunc(tick time.Time) {
 	// GS send keepAlive messages at whatever interval
-	_, _ = fmt.Println(masterName, "Tick at: ", tick)
+	//_, _ = fmt.Println(masterName, "Tick at: ", tick)
 	var duration1 time.Duration = tick.Sub(LastKeepAliveTime)
 	if duration1.Seconds() > 20 {
 		LastKeepAliveTime = tick
@@ -608,12 +608,12 @@ var TimePosition = 0
 
 func sendRoutingUpdate() {
 	// var names = ""
-	fmt.Println(masterName, ": Number of Sats=", len(sliceOfSatellites))
+	//fmt.Println(masterName, ": Number of Sats=", len(sliceOfSatellites))
 	for mgrIndex := range sliceOfSatellites { // for all Sats we know
 		// they may not be in order abcd
 		// might be better to just use satRouteInfo [] for position index
 		receiver := sliceOfSatellites[mgrIndex].Name
-		fmt.Println(masterName, ": Sat Name=", receiver, "---", receiver.Name)
+		// fmt.Println(masterName, ": Sat Name=", receiver, "---", receiver.Name)
 		satIndex := 1000
 		if receiver.Name == "SatA" {
 			satIndex = 0
@@ -627,14 +627,14 @@ func sendRoutingUpdate() {
 		if receiver.Name == "SatD" {
 			satIndex = 3
 		}
-		fmt.Println(masterName, ": satIndex=", satIndex, "mgrIndex=", mgrIndex, "TimePosition=", TimePosition)
+		//fmt.Println(masterName, ": satIndex=", satIndex, "mgrIndex=", mgrIndex, "TimePosition=", TimePosition)
 		if receiver.Name != masterName { // Do not send to self
 			udpAddress := sliceOfSatellites[mgrIndex].Name.Address
 			var posInfo = satRouteInfo[TimePosition] // set for all sats in time position, 4 sets
 			var satInfo = posInfo[satIndex]          // slice of commands for sat in position x
 			// var cmd = satInfo[0]                  // single command
 			var cmdNum = len(satInfo)
-			fmt.Println(masterName, ": Routing sent to Satellites=", receiver.Name, " #cmnds=", cmdNum, " Pos=", TimePosition)
+			fmt.Println(masterName, ": Routing sent to Satellite =", receiver.Name, " #cmnds=", cmdNum, " Pos=", TimePosition)
 			msgBody, _ := tbJsonUtils.TBmarshal(satInfo)
 			newMsg := tbMsgUtils.BiRouteUpdateMsg(masterFullName, receiver, string(msgBody))
 			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
