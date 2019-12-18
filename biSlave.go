@@ -28,6 +28,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 	"time"
@@ -349,7 +350,27 @@ func commandMessages(msg *tbMessages.TBmessage) {
 		var cmd tbMessages.LinuxCommand
 		cmd = cmds[cmdIndex]
 		//fmt.Println("RCVD CMD ", cmdIndex, " =",cmd)
-		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5)
+		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
+		// cmd.Output() → run it, wait, get output
+		// cmd.Run() → run it, wait for it to finish.
+		// cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
+
+		var thisCmd = exec.Command(cmd.Cmd, cmd.Par1, cmd.Par2, cmd.Par3, cmd.Par4, cmd.Par5, cmd.Par6)
+		//output, err := thisCmd.Output()
+
+		output, err := thisCmd.Output()
+		if err != nil && err.Error() != "exit status 1" {
+			fmt.Println("cmd.Run() failed with ", err)
+		}
+		fmt.Println("OUTPUT:", string(output))
+		//if err != nil && err.Error() != "exit status 1" {
+		//	//panic(err)
+		//	//fmt.Printf("ERROR=", err, "\n")
+		//	fmt.Printf("%T\n", err)
+		//} else {
+		//	fmt.Printf("CMD OUTPUT=",string(output))
+		//	// SEND REEPLY, OR MAYBE COMBINED ALL FIRST
+		//}
 	}
 	// var cmd = satInfo[0]
 }

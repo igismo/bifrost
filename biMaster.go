@@ -60,10 +60,10 @@ var sliceOfSatellites []tbMessages.TBmgr
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A1", Par1: "B1", Par2: "C1", Par3: "D1", Par4: "E1", Par5: "F1", Par6: "G1"},
-			tbMessages.LinuxCommand{Cmd: "H1", Par1: "I1", Par2: "J1", Par3: "K1", Par4: "L1", Par5: "M1", Par6: "N1"},
-			tbMessages.LinuxCommand{Cmd: "O1", Par1: "P1", Par2: "Q1", Par3: "R1", Par4: "S1", Par5: "T1", Par6: "U1"},
-			tbMessages.LinuxCommand{Cmd: "X1", Par1: "Y1", Par2: "Z1", Par3: "R1", Par4: "S1", Par5: "T1", Par6: "U1"},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "en0", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/Users", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/testbed", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -77,10 +77,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 2
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A2", Par1: "B2", Par2: "C2", Par3: "D2", Par4: "E2", Par5: "F2", Par6: "G"},
-			tbMessages.LinuxCommand{Cmd: "H2", Par1: "I2", Par2: "J2", Par3: "K2", Par4: "L2", Par5: "M2", Par6: "N"},
-			tbMessages.LinuxCommand{Cmd: "O2", Par1: "P2", Par2: "Q2", Par3: "R2", Par4: "S2", Par5: "T2", Par6: "U"},
-			tbMessages.LinuxCommand{Cmd: "X2", Par1: "Y2", Par2: "Z2", Par3: "R2", Par4: "S2", Par5: "T2", Par6: "U"},
+			tbMessages.LinuxCommand{Cmd: "netstat", Par1: "-f", Par2: "inet", Par3: "-nr", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "en0", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/Users", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/testbed", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -94,10 +94,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 3
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A3", Par1: "B3", Par2: "C3", Par3: "D3", Par4: "E3", Par5: "F3", Par6: "G3"},
-			tbMessages.LinuxCommand{Cmd: "H3", Par1: "I3", Par2: "J3", Par3: "K3", Par4: "L3", Par5: "M3", Par6: "N3"},
-			tbMessages.LinuxCommand{Cmd: "O3", Par1: "P3", Par2: "Q3", Par3: "R3", Par4: "S3", Par5: "T3", Par6: "U3"},
-			tbMessages.LinuxCommand{Cmd: "X3", Par1: "Y3", Par2: "Z3", Par3: "R3", Par4: "S3", Par5: "T3", Par6: "U3"},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "en0", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/Users", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/testbed", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -111,10 +111,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 4
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "A4", Par1: "B4", Par2: "C4", Par3: "D4", Par4: "E4", Par5: "F4", Par6: "G4"},
-			tbMessages.LinuxCommand{Cmd: "H4", Par1: "I4", Par2: "J4", Par3: "K4", Par4: "L4", Par5: "M4", Par6: "N4"},
-			tbMessages.LinuxCommand{Cmd: "O4", Par1: "P4", Par2: "Q4", Par3: "R4", Par4: "S4", Par5: "T4", Par6: "U4"},
-			tbMessages.LinuxCommand{Cmd: "X4", Par1: "Y4", Par2: "Z4", Par3: "R4", Par4: "S4", Par5: "T4", Par6: "U4"},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "en0", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/Users", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/testbed", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -160,7 +160,7 @@ func main() {
 	// cmd.Run() → run it, wait for it to finish.
 	// cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
 
-	var cmd = exec.Command("ifconfig", "-l") // en0
+	var cmd = exec.Command("sudo ifconfig", "-l") // en0
 	output, err := cmd.Output()
 	if err != nil {
 		//panic(err)
