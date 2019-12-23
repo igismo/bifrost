@@ -3,24 +3,33 @@
   <component name="ChangeListManager">
     <list default="true" id="8ff2ab23-3d7c-4187-bf9e-ec2f02eb747d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/biConsole.go" beforeDir="false" afterPath="$PROJECT_DIR$/biConsole.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/biMaster.go" beforeDir="false" afterPath="$PROJECT_DIR$/biMaster.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/biSlave.go" beforeDir="false" afterPath="$PROJECT_DIR$/biSlave.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/tbConfiguration/tbConfig.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/tbConfiguration/tbConfig.go" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GOROOT" path="$APPLICATION_HOME_DIR$/go1.14beta1" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1SXZb8mnreYiwbqNfB9Xbky8PFE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="GO_FMT" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Module.GOPATH.is.expanded" value="false" />
+    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -32,26 +41,23 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="settings.editor.selected.configurable" value="go.sdk" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Go Build.go build biMaster.go biConsole.go">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="bifrost" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build biConsole.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="bifrost" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -83,6 +89,16 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="bifrost" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <go_parameters value="-i" />
+      <framework value="gotest" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Go Build.go build biMaster.go biConsole.go" />
       <item itemvalue="Go Build.go build biSlave.go" />
@@ -95,6 +111,18 @@
         <item itemvalue="Go Build.go build biConsole.go" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -115,5 +143,31 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="dec 10 changes" />
     <option name="LAST_COMMIT_MESSAGE" value="dec 10 changes" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="340" y="188" width="800" height="684" key="#GOROOT" timestamp="1577135079551">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state x="340" y="188" width="800" height="684" key="#GOROOT/0.27.1920.1173@0.27.1920.1173" timestamp="1577135079551" />
+    <state width="1354" height="273" key="GridCell.Tab.0.bottom" timestamp="1577142271242">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state width="1354" height="273" key="GridCell.Tab.0.bottom/0.27.1920.1173@0.27.1920.1173" timestamp="1577142271242" />
+    <state width="1354" height="273" key="GridCell.Tab.0.center" timestamp="1577142271242">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state width="1354" height="273" key="GridCell.Tab.0.center/0.27.1920.1173@0.27.1920.1173" timestamp="1577142271242" />
+    <state width="1354" height="273" key="GridCell.Tab.0.left" timestamp="1577142271242">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state width="1354" height="273" key="GridCell.Tab.0.left/0.27.1920.1173@0.27.1920.1173" timestamp="1577142271242" />
+    <state width="1354" height="273" key="GridCell.Tab.0.right" timestamp="1577142271242">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state width="1354" height="273" key="GridCell.Tab.0.right/0.27.1920.1173@0.27.1920.1173" timestamp="1577142271242" />
+    <state x="234" y="185" width="1022" height="737" key="SettingsEditor" timestamp="1577136977232">
+      <screen x="0" y="27" width="1920" height="1173" />
+    </state>
+    <state x="234" y="185" width="1022" height="737" key="SettingsEditor/0.27.1920.1173@0.27.1920.1173" timestamp="1577136977232" />
   </component>
 </project>

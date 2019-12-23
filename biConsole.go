@@ -11,6 +11,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 //=======================================================================
@@ -57,8 +58,15 @@ func startConsole(consoleInput <-chan string) {
 			case "swapin":
 				var _ = swapinCommand.Parse(sa[1:])
 				break
-			case "swapout":
-				var _ = swapoutCommand.Parse(sa[1:])
+			case "stop":
+				RotationEnabled = false
+				break
+			case "start":
+				if sa[1] != "" {
+					RotationPeriod, _ = strconv.ParseFloat(sa[1], 64)
+				}
+
+				RotationEnabled = true
 				break
 			default:
 				flag.PrintDefaults()

@@ -19,7 +19,7 @@ v []int = make([]int, 100) // creates v structure that has pointer to an array,
 package main
 
 import (
-	tbConfig "bifrost/common/tbConfiguration"
+	"bifrost/common/tbConfiguration"
 	"bifrost/common/tbJsonUtils"
 	"bifrost/common/tbLogUtils"
 	"bifrost/common/tbMessages"
@@ -52,8 +52,9 @@ var myName = "SatA" //tbConfig.TBexpMgrName
 var myFullName tbMessages.NameId
 var myUdpAddress = new(net.UDPAddr)
 var myIpAddress = ""
-var myIPandPort = "10.0.1.164" + ":" + tbConfig.BifrostSatPort
-var mastersIPandPort = "10.0.1.164" + ":" + tbConfig.BifrostMasterPort
+
+var myIPandPort      = tbConfig.BifrostMasterIP + ":" + tbConfig.BifrostSatPort
+var mastersIPandPort = tbConfig.BifrostMasterIPandPort
 
 var myConnection *net.UDPConn = nil
 var myState = StateInit
@@ -350,19 +351,22 @@ func commandMessages(msg *tbMessages.TBmessage) {
 		var cmd tbMessages.LinuxCommand
 		cmd = cmds[cmdIndex]
 		//fmt.Println("RCVD CMD ", cmdIndex, " =",cmd)
-		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
-		// cmd.Output() → run it, wait, get output
-		// cmd.Run() → run it, wait for it to finish.
-		// cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
+		//fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
+		//cmd.Output() → run it, wait, get output
+		//cmd.Run() → run it, wait for it to finish.
+		//cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
 
 		var thisCmd = exec.Command(cmd.Cmd, cmd.Par1, cmd.Par2, cmd.Par3, cmd.Par4, cmd.Par5, cmd.Par6)
 		//output, err := thisCmd.Output()
 
 		output, err := thisCmd.Output()
 		if err != nil && err.Error() != "exit status 1" {
-			fmt.Println("cmd.Run() failed with ", err)
+			fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
+				" ", cmd.Par5, " ", cmd.Par6, " :  cmd.Run() failed with ", err)
+		} else {
+			fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
+				" ", cmd.Par5, " ", cmd.Par6, " :  OUTPUT:", string(output))
 		}
-		fmt.Println("OUTPUT:", string(output))
 		//if err != nil && err.Error() != "exit status 1" {
 		//	//panic(err)
 		//	//fmt.Printf("ERROR=", err, "\n")

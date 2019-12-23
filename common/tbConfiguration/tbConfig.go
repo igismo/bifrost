@@ -25,3 +25,8 @@ var TBversion = time.Now()
 
 var BifrostMasterPort = "1200"
 var BifrostSatPort = "1201"
+
+var BifrostMasterIP = "10.3.39.141"   // WORK
+// var BifrostMasterIP = "10.0.1.164"  //HOME
+
+var BifrostMasterIPandPort = BifrostMasterIP + ":" + BifrostMasterPort
