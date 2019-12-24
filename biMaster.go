@@ -57,15 +57,15 @@ var sliceOfSatellites []tbMessages.TBmgr
 // type CommandList         [] LinuxCommand
 // type SatRouteTableChange [] CommandList	// each set is per sat, list of commands
 // type ConstPosition       [] SatRouteTableChange // one set per position
-var GREEN = "'\033[102m'"
-var BLUE  = "'\033[104m'"
+var GREEN  = "'\033[102m'"
+var BLUE   = "'\033[104m'"
 var YELLOW = "'\033[103m'"
 var ORANGE = "'\033[105m'"  // actually PURPLE
 var CLEAR  = "'\033[2J'"
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "printf", Par1: CLEAR, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "-a", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -82,7 +82,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 2
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "printf", Par1: CLEAR, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: BLUE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "-a", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -99,7 +99,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 3
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "printf", Par1: CLEAR, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/var", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -116,7 +116,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	},
 	tbMessages.SatRouteTableChange{ // Position 4
 		tbMessages.CommandList{ // Sat A
-			tbMessages.LinuxCommand{Cmd: "printf", Par1: CLEAR, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: ORANGE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 
@@ -539,6 +539,9 @@ func masterSendHelloReplyMsg(msg *tbMessages.TBmessage) {
 	_, _ = masterConnection.WriteToUDP(replyBuffer, &remoteUdpAddress)
 }
 
+func masterSendControlCmd(receiver tbMessages.NameId, mBody string) {
+	tbMsgUtils.BiControlMsg(masterFullName, receiver , mBody)
+}
 //=======================================================================
 //
 //=======================================================================
@@ -559,6 +562,7 @@ func receiveRegisterMsg(msg *tbMessages.TBmessage) {
 		*knownSatellite = newSatellite
 	} else { // Add a new satellite
 		fmt.Println(masterName, "STORE in sliceOfSatellites MGR=", newSatellite.Name)
+		newSatellite.Name.Terminate = false
 		sliceOfSatellites = append(sliceOfSatellites, newSatellite)
 	}
 	fmt.Println(masterName, "New sliceOfSatellites=", sliceOfSatellites)
@@ -653,6 +657,11 @@ func sendRoutingUpdate() {
 			newMsg := tbMsgUtils.BiRouteUpdateMsg(masterFullName, receiver, string(msgBody))
 			tbMsgUtils.TBsendMsgOut(newMsg, udpAddress, masterConnection)
 			//names += " " + receiver.Name
+			if receiver.Terminate == true {
+				fmt.Println(masterName, ": Send TERMINATE to ", receiver.Name)
+				masterSendControlCmd(receiver, "TERMINATE")
+				receiver.Terminate = false
+			}
 		}
 	}
 

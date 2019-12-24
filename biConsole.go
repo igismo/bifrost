@@ -65,8 +65,15 @@ func startConsole(consoleInput <-chan string) {
 				if sa[1] != "" {
 					RotationPeriod, _ = strconv.ParseFloat(sa[1], 64)
 				}
-
 				RotationEnabled = true
+				break
+			case "terminate":
+				if sa[1] != "" {
+					sat := MasterLocateSatellite(sliceOfSatellites, sa[1])
+					if sat != nil {
+						sat.Name.Terminate = true
+					}
+				}
 				break
 			default:
 				flag.PrintDefaults()

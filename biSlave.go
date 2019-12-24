@@ -335,8 +335,12 @@ func stateConnectedMessages(message []byte) {
 		sendRegisterMsg()
 		break
 	case tbMessages.MSG_TYPE_CMD:
-		fmt.Println("..... CMD MESSAGE FROM MASTER")
+		// fmt.Println("..... CMD MESSAGE FROM MASTER")
 		commandMessages(msg)
+		break
+	case tbMessages.MSG_TYPE_TERMINATE:
+		fmt.Println("..... TERMINATE MESSAGE FROM MASTER")
+		os.Exit(0)
 		break
 	default:
 	}
@@ -344,14 +348,14 @@ func stateConnectedMessages(message []byte) {
 func commandMessages(msg *tbMessages.TBmessage) {
 	var cmds []tbMessages.LinuxCommand
 	_ = tbJsonUtils.TBunmarshal(msg.MsgBody, &cmds)
-	fmt.Println("RCVD COMMANDS=", cmds)
+	//fmt.Println("RCVD COMMANDS=", cmds)
 	//
 	//
 	for cmdIndex := range cmds {
 		var cmd tbMessages.LinuxCommand
 		cmd = cmds[cmdIndex]
 		//fmt.Println("RCVD CMD ", cmdIndex, " =",cmd)
-		//fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
+		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
 		//cmd.Output() → run it, wait, get output
 		//cmd.Run() → run it, wait for it to finish.
 		//cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
@@ -359,14 +363,14 @@ func commandMessages(msg *tbMessages.TBmessage) {
 		var thisCmd = exec.Command(cmd.Cmd, cmd.Par1, cmd.Par2, cmd.Par3, cmd.Par4, cmd.Par5, cmd.Par6)
 		//output, err := thisCmd.Output()
 
-		output, err := thisCmd.Output()
-		if err != nil && err.Error() != "exit status 1" {
-			fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
-				" ", cmd.Par5, " ", cmd.Par6, " :  cmd.Run() failed with ", err)
-		} else {
-			fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
+		output, _ := thisCmd.Output()
+		//if err != nil && err.Error() != "exit status 1" {
+		//	fmt.Println("CMDx=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
+		//		" ", cmd.Par5, " ", cmd.Par6, " :  cmd.Run() failed with ", err)
+		//} else {
+			fmt.Println("CMDy=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
 				" ", cmd.Par5, " ", cmd.Par6, " :  OUTPUT:", string(output))
-		}
+		//}
 		//if err != nil && err.Error() != "exit status 1" {
 		//	//panic(err)
 		//	//fmt.Printf("ERROR=", err, "\n")

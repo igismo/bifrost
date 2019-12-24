@@ -93,13 +93,13 @@ func BiRouteUpdateMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
 }
 
 //============================================================================
-// Create a
+// Create a special command message
 //============================================================================
-//func BiCommandListMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
-//	fmt.Println("MsgUtils: create COMMANDS msg, mBody=", mBody)
-//	msg := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_CMD, mBody)
-//	return msg
-//}
+func BiControlMsg(sender, receiver tbMessages.NameId, mBody string) []byte {
+	fmt.Println("MsgUtils: create COMMANDS msg for ", receiver.Name, "  mBody=", mBody)
+	replyBuffer := TBmarschalMessage(sender, receiver, tbMessages.MSG_TYPE_TERMINATE, mBody)
+	return replyBuffer
+}
 
 //============================================================================
 // Create a Hello message (to send to office mgr)

@@ -17,7 +17,7 @@ import (
 )
 
 //# Configure variables
-var TBDIR = "/Users/scuric/go/src/bifrost"
+var TBDIR = "~/go/src/bifrost"
 var TBlogPath = TBDIR + "/log/"
 var TBversion = time.Now()
 

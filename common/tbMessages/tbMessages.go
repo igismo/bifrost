@@ -52,6 +52,7 @@ type NameId struct {
 	OsId        int    // Task id, if known
 	TimeCreated string // my incarnation time
 	Address     net.UDPAddr
+	Terminate   bool
 }
 
 type LinuxCommand struct {
