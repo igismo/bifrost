@@ -67,6 +67,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "link", Par3: "set", Par4: "dev", Par5: "virbr0", Par6: "up"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.123.222", Par5: "dev", Par6: "virbr0"},
 		},
 		tbMessages.CommandList{ // Sat B
@@ -100,6 +101,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.123.222", Par5: "dev", Par6: "virbr0"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "link", Par3: "set", Par4: "dev", Par5: "virbr0", Par6: "down"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
