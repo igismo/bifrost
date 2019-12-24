@@ -60,8 +60,8 @@ var sliceOfSatellites []tbMessages.TBmgr
 var GREEN = "'\033[102m'"
 var BLUE = "'\033[104m'"
 var YELLOW = "'\033[103m'"
-var ORANGE = "'\033[105m'" // actually PURPLE
-var CLEAR = "'\033[2J'"
+var PURPLE = "'\033[105m'" // actually PURPLE
+// var CLEAR = "'\033[2J'"
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
@@ -114,7 +114,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 4
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "printf", Par1: ORANGE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "printf", Par1: PURPLE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "netstat", Par1: "-nr", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
@@ -149,13 +149,13 @@ func main() {
 	fmt.Println("Arguments=", argsWithoutProg)
 
 	//////
-	fmt.Printf("%v\n", "chdir to /users/scuric  -----------------------------\n")
+	fmt.Println("chdir to /users/scuric  -----------------------------")
 	var dirToRun = "/users/scuric"
 	var err = os.Chdir(dirToRun)
 	if err != nil {
-		fmt.Printf("ERROR CHDIR=", err)
+		fmt.Println("ERROR CHDIR=", err)
 	}
-	fmt.Printf("%v\n", "START EXEC -----------------------------\n")
+	fmt.Printf("%v\n", "START EXEC -----------------------------")
 
 	// cmd.Output() → run it, wait, get output
 	// cmd.Run() → run it, wait for it to finish.
@@ -165,7 +165,7 @@ func main() {
 	output, err := cmd.Output()
 	if err != nil && err.Error() != "exit status 1" {
 		//panic(err)
-		fmt.Println("ERROR IFCONFIG =", err, "\n")
+		fmt.Println("ERROR IFCONFIG =", err)
 	}
 	// ifconfig en0 inet 192.0.2.45/28 add
 	// ifconfig en0 inet 192.0.2.45 -alias
@@ -177,7 +177,7 @@ func main() {
 	// netstat -nr -f inet -I en0 -S   ... show status
 
 	fmt.Println("OUTPUT IFCONFIG=", string(output))
-	fmt.Println("END EXEC -----------------------------\n")
+	fmt.Println("END EXEC -----------------------------")
 	fmt.Println("Number of Satellite Positions = ", len(satRouteInfo))
 	// var posInfo = satRouteInfo[0] // set for all sats in time position, 4 sets
 	//var satInfo = posInfo[0]      // slice of commands for sat in position x
@@ -306,20 +306,20 @@ func officeMasterInit() {
 //=======================================================================
 //
 //=======================================================================
-var LastRouteUpdateTime time.Time = time.Now()
-var LastKeepAliveTime time.Time = time.Now()
+var LastRouteUpdateTime = time.Now()
+var LastKeepAliveTime = time.Now()
 var RotationEnabled = true
 var RotationPeriod = 5.0
 
 func MasterPeriodicFunc(tick time.Time) {
 	// GS send keepAlive messages at whatever interval
 	//_, _ = fmt.Println(masterName, "Tick at: ", tick)
-	var duration1 time.Duration = tick.Sub(LastKeepAliveTime)
+	var duration1 = tick.Sub(LastKeepAliveTime)
 	if duration1.Seconds() > 20 {
 		LastKeepAliveTime = tick
 		sendKeepAliveMsg()
 	}
-	var duration2 time.Duration = tick.Sub(LastRouteUpdateTime)
+	var duration2 = tick.Sub(LastRouteUpdateTime)
 	if (duration2.Seconds() > RotationPeriod) && RotationEnabled == true {
 		LastRouteUpdateTime = tick
 		sendRoutingUpdate()
@@ -534,8 +534,7 @@ func masterSendHelloReplyMsg(msg *tbMessages.TBmessage) {
 }
 
 func masterSendControlCmd(receiver tbMessages.NameId, mBody string) {
-	remoteUdpAddress := net.UDPAddr{IP: receiver.Address.IP,
-		Port: receiver.Address.Port}
+	remoteUdpAddress := net.UDPAddr{IP: receiver.Address.IP, Port: receiver.Address.Port}
 	replyBuffer := tbMsgUtils.BiControlMsg(masterFullName, receiver, mBody)
 	_, _ = masterConnection.WriteToUDP(replyBuffer, &remoteUdpAddress)
 }
@@ -605,10 +604,6 @@ func sendKeepAliveMsg() {
 		}
 		fmt.Println(masterName, ": KNOWN Satellites=", names)
 	}
-}
-
-func sendCommandListMsg() {
-	//msgBody, _ := tbJsonUtils.TBmarshal(commandList)
 }
 
 //====================================================================================
