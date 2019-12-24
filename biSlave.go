@@ -66,7 +66,7 @@ var myLastKeepAliveReceived = time.Now()
 
 var myRecvChannel chan []byte = nil               // To Receive messages from other modules
 var myControlChannel chan []byte = nil            // so that all local threads can talk back
-var satelliteSendChannel chan []byte = nil        // To Send messages out to other modules
+var satelliteSendChannel chan []byte = nil        // To Send messages out to Master and other modules
 var satelliteSendControlChannel chan []byte = nil // to send control msgs to Send Thread
 var myRecvControlChannel chan []byte = nil        // to send control msgs to Recv Thread
 
@@ -77,7 +77,8 @@ var Log = tbLogUtils.LogInstance{}
 
 // Arrays of satellites and soldiers learned
 var sliceOfOtherSatellites []tbMessages.TBmgr
-var sliceOfSoldiers []tbMessages.TBmgr
+// TODO: add ground statiions that registered ???
+// var sliceOfSoldiers []tbMessages.TBmgr
 
 //====================================================================================
 //
@@ -341,7 +342,7 @@ func stateConnectedMessages(message []byte) {
 	case tbMessages.MSG_TYPE_TERMINATE:
 		fmt.Println("..... TERMINATE MESSAGE FROM MASTER")
 		os.Exit(0)
-		break
+		//break
 	default:
 	}
 }
@@ -355,7 +356,7 @@ func commandMessages(msg *tbMessages.TBmessage) {
 		var cmd tbMessages.LinuxCommand
 		cmd = cmds[cmdIndex]
 		//fmt.Println("RCVD CMD ", cmdIndex, " =",cmd)
-		fmt.Println("CMD=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
+		fmt.Println("cmd=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4, " ", cmd.Par5, " ", cmd.Par6)
 		//cmd.Output() → run it, wait, get output
 		//cmd.Run() → run it, wait for it to finish.
 		//cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
@@ -397,6 +398,7 @@ func handleControlMessages(message []byte) {
 		stateInitControlMessages(msg)
 		break
 	case StateConnecting:
+		stateConnectingControlMessages(msg)  // TODO: OR maybe not
 		break
 	case StateConnected:
 		stateConnectedControlMessages(msg)
@@ -578,11 +580,11 @@ func locateTheMaster() bool {
 //====================================================================================
 //
 //====================================================================================
-func formatReceiver(name string, osId int, udpAddress net.UDPAddr) tbMessages.NameId {
-	receiver := tbMessages.NameId{Name: name, OsId: osId,
-		TimeCreated: "", Address: udpAddress}
-	return receiver
-}
+//func formatReceiver(name string, osId int, udpAddress net.UDPAddr) tbMessages.NameId {
+//	receiver := tbMessages.NameId{Name: name, OsId: osId,
+//		TimeCreated: "", Address: udpAddress}
+//	return receiver
+//}
 
 //====================================================================================
 // Save the pointer to my own row for faster handling
@@ -603,11 +605,11 @@ func sendRegisterMsg() {
 //====================================================================================
 //
 //====================================================================================
-func sendHelloReplyMsg(msg *tbMessages.TBmessage) {
-	receiver := msg.MsgSender
-	newMsg := tbMsgUtils.TBhelloMsg(myFullName, receiver, "ABCDEFG")
-	tbMsgUtils.TBsendMsgOut(newMsg, receiver.Address, myConnection)
-}
+//func sendHelloReplyMsg(msg *tbMessages.TBmessage) {
+//	receiver := msg.MsgSender
+//	newMsg := tbMsgUtils.TBhelloMsg(myFullName, receiver, "ABCDEFG")
+//	tbMsgUtils.TBsendMsgOut(newMsg, receiver.Address, myConnection)
+//}
 
 //====================================================================================
 //

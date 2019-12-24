@@ -576,7 +576,6 @@ func MasterLocateSatellite(sliceTable []tbMessages.TBmgr, satellite string) *tbM
 			return &sliceTable[index]
 		}
 	}
-
 	return nil
 }
 

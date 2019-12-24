@@ -22,20 +22,20 @@ func startConsole(consoleInput <-chan string) {
 	go func(ch <-chan string) {
 		reader := bufio.NewReader(os.Stdin)
 		for {
-			swapinCommand := flag.NewFlagSet("swapin", flag.ContinueOnError)
-			projectFlag := swapinCommand.String("p", "", "project")
-			experimentFlag := swapinCommand.String("e", "", "experiment")
-			userFlag := swapinCommand.String("u", "goran", "user")
+			swapinCommand  := flag.NewFlagSet("swapin", flag.ContinueOnError)
+			projectFlag    := swapinCommand.String("p", "",      "project")
+			experimentFlag := swapinCommand.String("e", "",      "experiment")
+			userFlag       := swapinCommand.String("u", "goran", "user")
 
-			swapoutCommand := flag.NewFlagSet("swapout", flag.ContinueOnError)
-			projectFlagOut := swapoutCommand.String("p", "", "-p <project>")
-			experimentFlagOut := swapoutCommand.String("e", "", "-e <experiment>")
-			userFlagOut := swapoutCommand.String("u", "goran", "user")
+			swapoutCommand    := flag.NewFlagSet("swapout", flag.ContinueOnError)
+			projectFlagOut    := swapoutCommand.String("p", "",      "-p <project>")
+			experimentFlagOut := swapoutCommand.String("e", "",      "-e <experiment>")
+			userFlagOut       := swapoutCommand.String("u", "goran", "user")
 
 			commandOK := ""
 			s, err := reader.ReadString('\n')
 			if err != nil { // Maybe log non io.EOF errors, if you want
-				fmt.Printf("Console:Error during ReadString")
+				fmt.Println("Console:Error during ReadString")
 			}
 
 			//ch <- s
