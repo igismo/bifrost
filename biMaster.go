@@ -540,7 +540,10 @@ func masterSendHelloReplyMsg(msg *tbMessages.TBmessage) {
 }
 
 func masterSendControlCmd(receiver tbMessages.NameId, mBody string) {
-	tbMsgUtils.BiControlMsg(masterFullName, receiver , mBody)
+	remoteUdpAddress := net.UDPAddr{IP: receiver.Address.IP,
+		Port: receiver.Address.Port}
+	replyBuffer :=  tbMsgUtils.BiControlMsg(masterFullName, receiver , mBody)
+	_, _ = masterConnection.WriteToUDP(replyBuffer, &remoteUdpAddress)
 }
 //=======================================================================
 //
