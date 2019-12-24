@@ -53,7 +53,7 @@ var myFullName tbMessages.NameId
 var myUdpAddress = new(net.UDPAddr)
 var myIpAddress = ""
 
-var myIPandPort      = tbConfig.BifrostMasterIP + ":" + tbConfig.BifrostSatPort
+var myIPandPort = tbConfig.BifrostMasterIP + ":" + tbConfig.BifrostSatPort
 var mastersIPandPort = tbConfig.BifrostMasterIPandPort
 
 var myConnection *net.UDPConn = nil
@@ -363,13 +363,13 @@ func commandMessages(msg *tbMessages.TBmessage) {
 		var thisCmd = exec.Command(cmd.Cmd, cmd.Par1, cmd.Par2, cmd.Par3, cmd.Par4, cmd.Par5, cmd.Par6)
 		//output, err := thisCmd.Output()
 
-		output, _ := thisCmd.Output()
+		output, err := thisCmd.Output()
 		//if err != nil && err.Error() != "exit status 1" {
 		//	fmt.Println("CMDx=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
 		//		" ", cmd.Par5, " ", cmd.Par6, " :  cmd.Run() failed with ", err)
 		//} else {
-			fmt.Println("CMDy=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
-				" ", cmd.Par5, " ", cmd.Par6, " :  OUTPUT:", string(output))
+		fmt.Println("CMDy=", cmd.Cmd, " ", cmd.Par1, " ", cmd.Par2, " ", cmd.Par3, " ", cmd.Par4,
+			" ", cmd.Par5, " ", cmd.Par6, " :  OUTPUT:", string(output), "  ERR:", err)
 		//}
 		//if err != nil && err.Error() != "exit status 1" {
 		//	//panic(err)

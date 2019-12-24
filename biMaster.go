@@ -57,18 +57,17 @@ var sliceOfSatellites []tbMessages.TBmgr
 // type CommandList         [] LinuxCommand
 // type SatRouteTableChange [] CommandList	// each set is per sat, list of commands
 // type ConstPosition       [] SatRouteTableChange // one set per position
-var GREEN  = "'\033[102m'"
-var BLUE   = "'\033[104m'"
+var GREEN = "'\033[102m'"
+var BLUE = "'\033[104m'"
 var YELLOW = "'\033[103m'"
-var ORANGE = "'\033[105m'"  // actually PURPLE
-var CLEAR  = "'\033[2J'"
+var ORANGE = "'\033[105m'" // actually PURPLE
+var CLEAR = "'\033[2J'"
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 	tbMessages.SatRouteTableChange{ // Position 1
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "-a", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.123.222", Par5: "dev", Par6: "virbr0"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -84,8 +83,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: BLUE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ifconfig", Par1: "-a", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "netstat", Par1: "-nr", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -101,8 +99,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/var", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.123.222", Par5: "dev", Par6: "virbr0"},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -118,10 +115,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: ORANGE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/tmp", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
-
-
-			tbMessages.LinuxCommand{Cmd: "ls", Par1: "/testbed", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "netstat", Par1: "-nr", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 		},
 		tbMessages.CommandList{ // Sat B
 			tbMessages.LinuxCommand{Cmd: "", Par1: "", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -167,7 +161,7 @@ func main() {
 	// cmd.Run() → run it, wait for it to finish.
 	// cmd.Start() → run it, don't wait. err = cmd.Wait() to get result.
 
-	var cmd = exec.Command("ifconfig", "-a")//,"eno1")
+	var cmd = exec.Command("ifconfig", "-a") //,"eno1")
 	output, err := cmd.Output()
 	if err != nil && err.Error() != "exit status 1" {
 		//panic(err)
@@ -315,7 +309,7 @@ func officeMasterInit() {
 var LastRouteUpdateTime time.Time = time.Now()
 var LastKeepAliveTime time.Time = time.Now()
 var RotationEnabled = true
-var RotationPeriod  = 5.0
+var RotationPeriod = 5.0
 
 func MasterPeriodicFunc(tick time.Time) {
 	// GS send keepAlive messages at whatever interval
@@ -542,9 +536,10 @@ func masterSendHelloReplyMsg(msg *tbMessages.TBmessage) {
 func masterSendControlCmd(receiver tbMessages.NameId, mBody string) {
 	remoteUdpAddress := net.UDPAddr{IP: receiver.Address.IP,
 		Port: receiver.Address.Port}
-	replyBuffer :=  tbMsgUtils.BiControlMsg(masterFullName, receiver , mBody)
+	replyBuffer := tbMsgUtils.BiControlMsg(masterFullName, receiver, mBody)
 	_, _ = masterConnection.WriteToUDP(replyBuffer, &remoteUdpAddress)
 }
+
 //=======================================================================
 //
 //=======================================================================
