@@ -297,7 +297,11 @@ func officeMasterInit() {
 		masterFullName = tbMessages.NameId{Name: masterName, OsId: os.Getpid(),
 			TimeCreated: masterCreationTime, Address: *masterUdpAddress}
 		fmt.Println(masterName, "INIT: masterFullName=", masterFullName)
+		// Add my self to known satellite slice
+		myEntry := tbMessages.TBmgr{Name: masterFullName, Up: true, LastChangeTime: masterCreationTime,
+			MsgsSent: 0, LastSentAt: "0", MsgsRcvd: 0, LastRcvdAt: "0"}
 
+		sliceOfSatellites = append(sliceOfSatellites, myEntry)
 	}
 
 	officeMgrSetState(MasterConnected)

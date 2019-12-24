@@ -47,36 +47,34 @@ const StateConnected = "CONNECTED"
 const StateUP = "UP"
 const StateDOWN = "DOWN"
 
-// Set the following 4 using specified attributes
-var myName = "SatA" //tbConfig.TBexpMgrName
-var myFullName tbMessages.NameId
-var myUdpAddress = new(net.UDPAddr)
-var myIpAddress = ""
-
-var myIPandPort = tbConfig.BifrostMasterIP + ":" + tbConfig.BifrostSatPort
-var mastersIPandPort = tbConfig.BifrostMasterIPandPort
-
-var myConnection *net.UDPConn = nil
-var myState = StateInit
-
-var myCreationTime = strconv.FormatInt(tbMsgUtils.TBtimestamp(), 10)
-var myReceiveCount = 0
-var myConnectionTimer = 0
-var myLastKeepAliveReceived = time.Now()
-
-var myRecvChannel chan []byte = nil               // To Receive messages from other modules
-var myControlChannel chan []byte = nil            // so that all local threads can talk back
-var satelliteSendChannel chan []byte = nil        // To Send messages out to Master and other modules
-var satelliteSendControlChannel chan []byte = nil // to send control msgs to Send Thread
-var myRecvControlChannel chan []byte = nil        // to send control msgs to Recv Thread
-
+var myFullName      tbMessages.NameId
+var mastersFullName tbMessages.NameId
+// Set the following to specified attributes
+var myName            = "SatA"
+var myIpAddress       = tbNetUtils.GetLocalIp()
+var myUdpPort         = tbConfig.BifrostSatPort
+var myIPandPort       = tbConfig.BifrostMasterIP + ":" + tbConfig.BifrostSatPort
+var mastersIPandPort  = tbConfig.BifrostMasterIPandPort
 var mastersUdpAddress = new(net.UDPAddr) // the address of the master control
-var offMgrFullName tbMessages.NameId
+var myUdpAddress      = new(net.UDPAddr)
+
+var myState                   = StateInit
+var myCreationTime            = strconv.FormatInt(tbMsgUtils.TBtimestamp(), 10)
+var myReceiveCount            = 0
+var myConnectionTimer         = 0
+var myLastKeepAliveReceived   = time.Now()
+var myConnection *net.UDPConn = nil
+
+var myRecvChannel chan []byte               = nil // To Receive messages from other modules
+var myControlChannel chan []byte            = nil // so that all local threads can talk back
+var satelliteSendChannel chan []byte        = nil // To Send messages out to Master and other modules
+var satelliteSendControlChannel chan []byte = nil // to send control msgs to Send Thread
+var myRecvControlChannel chan []byte        = nil // to send control msgs to Recv Thread
 
 var Log = tbLogUtils.LogInstance{}
 
-// Arrays of satellites and soldiers learned
-var sliceOfOtherSatellites []tbMessages.TBmgr
+// Arrays of satellites and ground soldiers learned
+var sliceOfKnownSatellites []tbMessages.TBmgr
 // TODO: add ground statiions that registered ???
 // var sliceOfSoldiers []tbMessages.TBmgr
 
@@ -84,12 +82,48 @@ var sliceOfOtherSatellites []tbMessages.TBmgr
 //
 //====================================================================================
 func main() {
-	// TODO:  initialize IP, IPandPORT, mastersIpAddress, maybe bifrostPort
-	Log.DebugLog = true
+	Log.DebugLog   = true
 	Log.WarningLog = true
-	Log.ErrorLog = true
+	Log.ErrorLog   = true
 	tbLogUtils.CreateLog(&Log, myName)
 	Log.Warning(&Log, "this will be printed anyway")
+
+	// FORMAT: sudo ./biSlave  [myName [myIP [myPort [masterIP [masterPort]]]]]
+	// use 0 anywhere for default
+	// EXAMPLE1: sudo ./biSlave SatA  192.168.22.2 1201  192.168.1.1 1200
+	// EXAMPLE1: sudo ./biSlave SatA  192.168.22.2 1201  192.168.1.1 1200
+	fmt.Println("========= START ", os.Args[0], " =========================")
+	//argsWithProg := os.Args
+	//argsWithoutProg := os.Args[1:]
+
+	for index := range os.Args {
+		arg := os.Args[index]
+		fmt.Println("Arg", index, "=", arg)
+	}
+	argNum := len(os.Args) // Number of arguments supplied, including the command
+	fmt.Println("Number of Arguments = ", argNum)
+	if argNum > 1 && os.Args[1] != "" && os.Args[1] != "0"{
+		fmt.Println("Satellite NAME = ", os.Args[1])
+		myName = os.Args[1]
+	}
+	if argNum > 2 && os.Args[2] != "" && os.Args[2] != "0"{
+		fmt.Println("Satellite IP   = ", os.Args[2])
+		myIpAddress = os.Args[2]
+		// TODO: Set eth0 IP address to myIpAddress !!!
+		var ifCmd = exec.Command("sudo", "ifconfig", "eth0", myIpAddress, "up", "", "")
+		output, err := ifCmd.Output()
+		fmt.Println("SET MY IP=","sudo","ifconfig","eth0",myIpAddress,"up"," -OUTPUT:",string(output)," ERR:",err)
+	}
+	if argNum > 3 && os.Args[3] != "" && os.Args[3] != "0"{
+		myUdpPort = os.Args[3] // strconv.ParseInt(os.Args[3], 10, 64)
+	}
+	if argNum > 4 && os.Args[4] != "" && os.Args[4] != "0" && argNum > 5 && os.Args[5] != "" && os.Args[5] != "0"{
+		mastersIPandPort = os.Args[4] + ":" + os.Args[5]
+	}
+	myIPandPort     = myIpAddress + ":" + myUdpPort
+	myUdpAddress, _ = net.ResolveUDPAddr("udp", myIPandPort)
+
+	fmt.Println(myName, "FLYING: My Local IP=", myIpAddress, "IPandPort=",myIPandPort," My UDP address=", myUdpAddress)
 
 	myInit()
 	fmt.Println(myName, "MAIN: Starting a new ticker....")
@@ -442,22 +476,35 @@ func stateConnectedControlMessages(msg tbMessages.TBmessage) {
 }
 
 //=======================================================================
-//
+// Keep alive from the master with all learned satellites
 //=======================================================================
 func receivedKeepAliveMsg(msg *tbMessages.TBmessage) {
-	var rcvdSliceOfMgrs []tbMessages.TBmgr
-	_ = tbJsonUtils.TBunmarshal(msg.MsgBody, &rcvdSliceOfMgrs)
+	var rcvdSliceOfSatellites []tbMessages.TBmgr
+	_ = tbJsonUtils.TBunmarshal(msg.MsgBody, &rcvdSliceOfSatellites)
 	var names = ""
-	for mgrIndex := range rcvdSliceOfMgrs {
-		receiver := rcvdSliceOfMgrs[mgrIndex].Name
+	for satIndex := range rcvdSliceOfSatellites {
+		newSatellite := rcvdSliceOfSatellites[satIndex]
 
-		ip := rcvdSliceOfMgrs[mgrIndex].Name.Address.IP.String()
-		port := rcvdSliceOfMgrs[mgrIndex].Name.Address.Port
+		ip := rcvdSliceOfSatellites[satIndex].Name.Address.IP.String()
+		port := rcvdSliceOfSatellites[satIndex].Name.Address.Port
 
-		names += " " + receiver.Name + " at " + ip + ":" + strconv.Itoa(port)
+		names += " " + newSatellite.Name.Name + " at " + ip + ":" + strconv.Itoa(port) + ";"
+		// TODO add to the slice of known satellites ...
+		// in sliceOfKnownSatellites, check if new one already there if yes update, otherwise append
+		knownSatellite := locateOtherSatellite(sliceOfKnownSatellites, newSatellite.Name.Name)
+		if newSatellite.Name.Name != myName { // Do not update my own record
+			if knownSatellite != nil { // Update existing record
+				fmt.Println(myName, "Update already known Sat =", newSatellite.Name)
+				*knownSatellite = newSatellite
+			} else { // Add a new satellite
+				fmt.Println(myName, "Save newly learned Sat =", newSatellite.Name)
+				sliceOfKnownSatellites = append(sliceOfKnownSatellites, newSatellite)
+			}
+		}
 
 	}
-	fmt.Println(myName, ": LEARNED MODULES=", names)
+	fmt.Println(myName, ": New Satellites Learned from Master   =", names)
+	fmt.Println(myName, ": My Updated Learned Satellite Records =", sliceOfKnownSatellites)
 }
 
 //=======================================================================
@@ -468,8 +515,8 @@ func stateConnectingControlMessages(msg tbMessages.TBmessage) {
 	switch messageType {
 	case tbMessages.MSG_TYPE_CONNECTED:
 		expSetState(StateConnected)
-		// satelliteSendChannel <- tbMsgUtils.TBhelloMsg(myFullName, offMgrFullName, "ABCDEFG")
-		newMsg := tbMsgUtils.TBhelloMsg(myFullName, offMgrFullName, "ABCDEFG")
+		// satelliteSendChannel <- tbMsgUtils.TBhelloMsg(myFullName, mastersFullName, "ABCDEFG")
+		newMsg := tbMsgUtils.TBhelloMsg(myFullName, mastersFullName, "ABCDEFG")
 		fmt.Println(myName, "stateConnectingControlMessages: sendMsgOut ")
 		tbMsgUtils.TBsendMsgOut(newMsg, *mastersUdpAddress, myConnection)
 		break
@@ -500,13 +547,6 @@ func myInit() {
 	myRecvChannel = make(chan []byte)               //
 	myControlChannel = make(chan []byte)            // so that all threads can talk to us
 
-	myIpAddress = tbNetUtils.GetLocalIp()
-	myIPandPort = myIpAddress + ":" + tbConfig.BifrostSatPort
-
-	myUdpAddress, _ = net.ResolveUDPAddr("udp", myIPandPort)
-
-	fmt.Println(myName, "INIT: My Local IP=", myIpAddress, " My UDP address=", myUdpAddress)
-
 	myFullName = tbMessages.NameId{Name: myName, OsId: os.Getpid(),
 		TimeCreated: myCreationTime, Address: *myUdpAddress}
 	fmt.Println(myName, "INIT: myFullName=", myFullName)
@@ -514,17 +554,16 @@ func myInit() {
 	myConnection, err = net.ListenUDP("udp", myUdpAddress) // from officeMgr
 	checkError(err)
 
+	// Add my self to known satellite slice
 	myEntry := tbMessages.TBmgr{Name: myFullName, Up: true, LastChangeTime: myCreationTime,
 		MsgsSent: 0, LastSentAt: "0", MsgsRcvd: 0, LastRcvdAt: "0"}
-	sliceOfOtherSatellites = append(sliceOfOtherSatellites, myEntry)
-
+	sliceOfKnownSatellites = append(sliceOfKnownSatellites, myEntry)
 	fmt.Println(myName, "SAT:", myEntry.Name.Name, "ADDRESS:", myEntry.Name.Address,
 		"CREATED:", myEntry.Name.TimeCreated, "MSGSRCVD:", myEntry.MsgsRcvd)
 
+	// START SEND AND RECEIVE THREADS:
 	//err1 := sendThread(myConnection, satelliteSendChannel, satelliteSendControlChannel)
-	//if err1 != nil {
-	//	fmt.Println(myName,"INIT: Error creating send thread")
-	//}
+	//if err1 != nil { fmt.Println(myName,"INIT: Error creating send thread") }
 	err2 := RecvThread(myConnection, myRecvControlChannel)
 	if err2 != nil {
 		fmt.Println(myName, "INIT: Error creating Receive thread")
@@ -540,9 +579,6 @@ func myInit() {
 	} else {
 		myConnectionTimer = 5 // 3*5=15 sec, check periodic timer above
 	}
-	//fmt.Println(myName, "++++++++++++++++++++++++++++++++++")
-	//fmt.Println(myName, "++++++++++++++++++++++++++++++++++")
-	//fmt.Println(myName, "START HANDLE CREATE")
 }
 
 //====================================================================================
@@ -560,19 +596,19 @@ func locateTheMaster() bool {
 		fmt.Println("ERROR locating master, will retry")
 		return false
 	}
-
-	offMgrFullName = tbMessages.NameId{Name: mastersIPandPort, OsId: 0,
-		TimeCreated: "0", Address: *mastersUdpAddress}
-	fmt.Println(myName, "INIT: masterFullName=", offMgrFullName)
-	entry2 := tbMessages.TBmgr{Name: offMgrFullName, Up: true, LastChangeTime: "0",
-		MsgsSent: 0, LastSentAt: "0", MsgsRcvd: 0, LastRcvdAt: "0"}
-	sliceOfOtherSatellites = append(sliceOfOtherSatellites, entry2)
-	// fmt.Println("New SLICE of Managers=", sliceOfOtherSatellites)
-
-	theMgr := locateOtherSatellite(sliceOfOtherSatellites, mastersIPandPort)
-	if theMgr != nil {
-		fmt.Println("SAT:", theMgr.Name.Name, "ADDRESS:", theMgr.Name.Address,
-			"CREATED:", theMgr.Name.TimeCreated, "MSGSRCVD:", theMgr.MsgsRcvd)
+	// TODO check if thi is needed
+	//mastersFullName = tbMessages.NameId{Name:mastersIPandPort,OsId:0,TimeCreated:"0",Address:*mastersUdpAddress}
+	//fmt.Println(myName, "INIT: masterFullName=", mastersFullName)
+	//mastersEntry := tbMessages.TBmgr{Name:mastersFullName,Up:true,LastChangeTime:"0",MsgsSent:0,LastSentAt:"0",MsgsRcvd:0,LastRcvdAt:"0"}
+	//sliceOfKnownSatellites = append(sliceOfKnownSatellites, mastersEntry)
+	fmt.Println("Records of Known Satellites=", sliceOfKnownSatellites)
+    // check the master is there:
+	theMaster := locateOtherSatellite(sliceOfKnownSatellites, mastersIPandPort)
+	if theMaster != nil {
+		fmt.Println("SAT:", theMaster.Name.Name, "ADDRESS:", theMaster.Name.Address,
+			"CREATED:", theMaster.Name.TimeCreated, "MSGSRCVD:", theMaster.MsgsRcvd)
+	} else {
+		fmt.Println("No Master Detected YET ...................")
 	}
 	return true
 }
@@ -587,14 +623,14 @@ func locateTheMaster() bool {
 //}
 
 //====================================================================================
-// Save the pointer to my own row for faster handling
+// We saved the pointer to my own row in the slice of Satellites for faster handling
 //====================================================================================
 func sendRegisterMsg() {
-	theMgr := locateOtherSatellite(sliceOfOtherSatellites, myName)
-	msgBody, _ := tbJsonUtils.TBmarshal(theMgr)
-	if theMgr != nil {
-		theMgr.LastSentAt = strconv.FormatInt(tbMsgUtils.TBtimestamp(), 10)
-		newMsg := tbMsgUtils.TBregisterMsg(myFullName, offMgrFullName, string(msgBody))
+	myRecord := locateOtherSatellite(sliceOfKnownSatellites, myName)
+	if myRecord != nil { // if nil then something really wrong
+		msgBody, _ := tbJsonUtils.TBmarshal(myRecord)
+		myRecord.LastSentAt = strconv.FormatInt(tbMsgUtils.TBtimestamp(), 10)
+		newMsg := tbMsgUtils.TBregisterMsg(myFullName, mastersFullName, string(msgBody))
 		// fmt.Println(myName, "stateConnected REGISTER with offMgr ")
 		tbMsgUtils.TBsendMsgOut(newMsg, *mastersUdpAddress, myConnection)
 	} else {
@@ -623,7 +659,7 @@ func checkError(err error) {
 }
 
 //============================================================================
-// Locate specific satellite in the slice of all learned satellites
+// Locate specific satellite in the slice of all learned satellites by NAME
 // Return nil if row not found
 //============================================================================
 func locateOtherSatellite(slice []tbMessages.TBmgr, satellite string) *tbMessages.TBmgr {
