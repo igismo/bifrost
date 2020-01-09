@@ -1,6 +1,103 @@
-MUST DO TO GET FORWARDING WORKING
+########################################################
+#MUST DO TO GET FORWARDING WORKING
+## WORKS TEMPORARY UNTIL NEXT REBOOT
+############################################################
 sudo nano /proc/sys/net/bridge/bridge-nf-call--iptables
 ---->  set value to 0 , save
+# also do not query iptables for package routing
+echo 0 > /proc/sys/net/bridge/bridge-nf-call-iptables
+# and no additional processing for multicast packages
+echo 0 > /sys/devices/virtual/net/br0/bridge/multicast_querier
+echo 0 > /sys/devices/virtual/net/br0/bridge/multicast_snooping
+#-------------------------------------------------------------
+#############################################################
+### THIS MAY NOT BE GOOD ... LOOK BELLOW FOR DIFFERENT WAY ...
+##############################################################
+#To enable these changes permanently, you have to modify the 
+#configuration file of sysctl so that it loads our modifications 
+#each start. 
+#It is the file “/etc/sysctl.conf” to activate IPv4 IP forwarding. 
+#We will add or uncomment this line:
+ net.ipv4.ip_forward = 1
+#For IPv6, we will do the same with this line:
+ net.ipv6.conf.all.forwarding=1
+#Activate:
+sudo sysctl -p /etc/sysctl.conf
+
+#############################################
+## enable arp proxy
+##############################################
+sudo nano /etc/sysctl.conf
+	net.ipv4.conf.all.proxy_arp=1
+	net.ipv4.conf.eth0.proxy_arp=1
+sudo sysctl -p
+
+
+#############################################
+## SET FORWARDING, ARP PROXY, BRIDGE
+#################################################
+edit /etc/ufw/sysctl.conf
+#
+# Configuration file for setting network variables. Please note these settings
+# override /etc/sysctl.conf and /etc/sysctl.d. If you prefer to use
+# /etc/sysctl.conf, please adjust IPT_SYSCTL in /etc/default/ufw. See
+# Documentation/networking/ip-sysctl.txt in the kernel source code for more
+# information.
+#
+
+# Uncomment this to allow this host to route packets between interfaces
+net/ipv4/ip_forward=1
+net/ipv6/conf/default/forwarding=1
+net/ipv6/conf/all/forwarding=1
+
+# Disable ICMP redirects. ICMP redirects are rarely used but can be used in
+# MITM (man-in-the-middle) attacks. Disabling ICMP may disrupt legitimate
+# traffic to those sites.
+net/ipv4/conf/all/accept_redirects=0
+net/ipv4/conf/default/accept_redirects=0
+net/ipv6/conf/all/accept_redirects=0
+net/ipv6/conf/default/accept_redirects=0
+
+# Ignore bogus ICMP errors
+net/ipv4/icmp_echo_ignore_broadcasts=1
+net/ipv4/icmp_ignore_bogus_error_responses=1
+net/ipv4/icmp_echo_ignore_all=0
+
+# Don't log Martian Packets (impossible addresses)
+# packets
+net/ipv4/conf/all/log_martians=0
+net/ipv4/conf/default/log_martians=0
+
+#net/ipv4/tcp_fin_timeout=30
+#net/ipv4/tcp_keepalive_intvl=1800
+
+# Uncomment this to turn off ipv6 autoconfiguration
+#net/ipv6/conf/default/autoconf=1
+#net/ipv6/conf/all/autoconf=1
+
+# Uncomment this to enable ipv6 privacy addressing
+#net/ipv6/conf/default/use_tempaddr=2
+#net/ipv6/conf/all/use_tempaddr=2
+
+net/bridge/bridge-nf-call-ip6tables = 0
+net/bridge/bridge-nf-call-iptables = 0
+net/bridge/bridge-nf-call-arptables = 0
+
+##################################################
+###########  GET UUIDS
+sudo nmcli connection show
+[sudo] password for goran: 
+NAME                UUID                                  TYPE      DEVICE 
+Wired connection 1  10f6092f-c245-3997-bb03-b5b8e7aae539  ethernet  eth0   
+Wired connection 2  05a93415-0800-39f0-92a7-69ebf894679f  ethernet  eth1   
+Wired connection 3  99804a46-f2d5-385d-87ab-17ea4453de4d  ethernet  eth2   
+Wired connection 4  ecde18f7-10fa-30c9-9894-0296a8dd2ecb  ethernet  eth3   
+Wired connection 5  330e279d-586a-305e-ab21-ace528512f02  ethernet  eth4   
+Wired connection 6  93ad1f41-333a-3e36-879d-5b490398e3a6  ethernet  eth5   
+Wired connection 7  1255ccac-721b-3da4-bf8b-0f63896e4048  ethernet  eth6
+
+
+
 
 
 USER2
