@@ -1,0 +1,86 @@
+MUST DO TO GET FORWARDING WORKING
+sudo nano /proc/sys/net/bridge/bridge-nf-call--iptables
+---->  set value to 0 , save
+
+
+USER2
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+goran@User2:/etc/netplan$ cat 01-network-manager-all.yaml
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+   eth1:
+     dhcp4: false
+     addresses: [192.168.2.22/24]
+     gateway4:  192.168.2.1
+     nameservers:
+       addresses: [8.8.8.8,8.8.4.4]
+       search: []
+   eth0:
+     dhcp4: true
+     dhcp4-overrides:
+         use-routes: false
+goran@User2:/etc/netplan$ 
+============================
+goran@User2:/etc/netplan$ cat /etc/network/interfaces 
+auto lo 
+iface lo inet loopback
+========================================
+goran@User2:/etc$ sudo cat /etc/NetworkManager/system-connections/eth0.nmconnection 
+[connection]
+id=eth0
+uuid=2c8e118e-55d3-3141-adf2-a4ba7175aff1
+type=ethernet
+autoconnect-priority=-999
+interface-name=eth0
+permissions=
+timestamp=1578437391
+
+[ethernet]
+mac-address=52:54:00:67:11:11
+mac-address-blacklist=
+
+[ipv4]
+dns-search=
+method=auto
+never-default=true
+route1=192.168.122.0/24,192.168.122.1
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+goran@User2:/etc$ 
+==========================================
+goran@User2:/etc$ sudo cat /etc/NetworkManager/system-connections/eth1.nmconnection 
+[connection]
+id=eth1
+uuid=939f75f9-0314-4d99-b149-8f34595d750b
+type=ethernet
+autoconnect-priority=-999
+interface-name=eth1
+permissions=
+timestamp= 1578437392
+
+[ethernet]
+mac-address=52:54:00:A4:49:B3
+mac-address-blacklist=
+
+[ipv4]
+dns-search=
+method=auto
+route1=0.0.0.0/32,192.168.2.1
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+method=auto
+
+[proxy]
+goran@User2:/etc$ 
+
+
