@@ -1,3 +1,27 @@
+### INSTALL BIND9
+sudo apt update
+sudo apt install bind9 bind9utils bind9-doc bind9-host
+named -V
+systemctl status bind9
+sudo systemctl start bind9
+sudo systemctl enabel bind9
+sudo netstat -lnptu | grep named
+sudo rndc status
+sudo ufw allow in from 192.168.0.0/16 to any port 53
+dig A google.com @192.168.122.231
+
+### FIX /etc/resolve.conf
+## SET TEMPORARY
+sudo mkdir /run/systemd/resolve
+sudo nano /etc/resolv.conf
+# INSTALL
+$ sudo apt update
+$ sudo apt install resolvconf
+$ sudo nano /etc/resolvconf/resolv.conf.d/head
+$ sudo systemctl start resolvconf.service
+$ sudo systemctl enable resolvconf.service
+$ sudo systemctl status resolvconf.service
+
 ########################################################
 #MUST DO TO GET FORWARDING WORKING
 ## WORKS TEMPORARY UNTIL NEXT REBOOT
