@@ -74,9 +74,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -94,10 +95,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -114,10 +116,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -134,10 +137,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -158,10 +162,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth1"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -179,9 +184,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth2"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -200,8 +206,9 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth3"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -221,7 +228,8 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth4"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -243,9 +251,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth2"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -264,12 +273,13 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth3"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// add
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "", Par6: " "},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
@@ -285,7 +295,8 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth4"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -302,10 +313,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth1"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -328,8 +340,9 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth3"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
@@ -349,7 +362,8 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth4"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -366,10 +380,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth1"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
@@ -387,9 +402,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "down", Par4: "", Par5: "", Par6: ""},
 			// delete routes
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth2"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
