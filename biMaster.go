@@ -64,7 +64,8 @@ var PURPLE = "'\033[105m'" // actually PURPLE
 // var CLEAR = "'\033[2J'"
 // tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "link", Par3: "set", Par4: "dev", Par5: "virbr0", Par6: "up"},
 var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
-	tbMessages.SatRouteTableChange{ // Geo Position 1 - We just arrived from Geo position 4 - change the color to GREEN
+	//****************************************************************************************************************
+	tbMessages.SatRouteTableChange{ // Geo Position 0 - We just arrived from Geo position 3 - change the color to GREEN
 		tbMessages.CommandList{ // Sat A
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
@@ -80,13 +81,12 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth1", Par3: "up", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
-			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth1", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat B in GEO position 1
+		tbMessages.CommandList{ // Sat B in GEO position 0
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: BLUE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -102,12 +102,11 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth2", Par3: "up", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
-			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth2", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat C in GEO position 1
+		tbMessages.CommandList{ // Sat C in GEO position 0
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -128,7 +127,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat D in GEO position 1
+		tbMessages.CommandList{ // Sat D in GEO position 0
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: PURPLE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -150,7 +149,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
 	},
-	tbMessages.SatRouteTableChange{ // Position 2 -
+	tbMessages.SatRouteTableChange{ // GEO Position 1
 		//-------------------------------------------------------------------------------------------------------------------------------
 		//*******************************************************************************************************************************
 		tbMessages.CommandList{ // Sat A in GEO position 1
@@ -195,7 +194,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat C in GEO p
+		tbMessages.CommandList{ // Sat C in GEO position 1
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: PURPLE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -216,7 +215,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat D
+		tbMessages.CommandList{ // Sat D GEO position 1
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -238,10 +237,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth1", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
 	},
-	tbMessages.SatRouteTableChange{ // Position 3 - just arrived from 2 - change color to YELLOW
+	tbMessages.SatRouteTableChange{ // Position 2 - just arrived from 1 - change color to YELLOW
 		//---------------------------------------------------------------------------------------------------------------------------
 		//***************************************************************************************************************************
-		tbMessages.CommandList{ // Sat A in GEO position 3
+		tbMessages.CommandList{ // Sat A in GEO position 2
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -262,7 +261,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat B in GEO position 3
+		tbMessages.CommandList{ // Sat B in GEO position 2
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: PURPLE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -277,13 +276,13 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// add
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "", Par6: " "},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat C in GEO position 3
+		tbMessages.CommandList{ // Sat C in GEO position 2
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -304,7 +303,7 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth1", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat D in GEO position 3
+		tbMessages.CommandList{ // Sat D in GEO position 2
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: BLUE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -326,10 +325,10 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth2", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
 	},
-	tbMessages.SatRouteTableChange{ // Position 4
+	tbMessages.SatRouteTableChange{ // GEO Position 3
 		//----------------------------------------------------------------------------------------------------------------------------------
 		//**********************************************************************************************************************************
-		tbMessages.CommandList{ // Sat A in GEO position 4
+		tbMessages.CommandList{ // Sat A in GEO position 3
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: PURPLE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -345,12 +344,12 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.3.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth4", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat B in GEO position 4
+		tbMessages.CommandList{ // Sat B in GEO position 3
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: GREEN, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -365,13 +364,13 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "", Par6: ""},
 			// add
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth1", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat C in GEO position 4
+		tbMessages.CommandList{ // Sat C in GEO position 3
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: BLUE, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -387,12 +386,12 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.1.0/24", Par5: "", Par6: ""},
 			// add
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth2", Par3: "up", Par4: "", Par5: "", Par6: ""},
 		},
-		tbMessages.CommandList{ // Sat D in GEO position 4
+		tbMessages.CommandList{ // Sat D in GEO position 3
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: "'\033[2J'", Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			tbMessages.LinuxCommand{Cmd: "printf", Par1: YELLOW, Par2: "", Par3: "", Par4: "", Par5: "", Par6: ""},
 			// First delete route to Ground from previous position (will become local interface 192.168.1.0/24 at eth1)
@@ -407,8 +406,8 @@ var satRouteInfo = tbMessages.ConstPosition{ // 4 positions for now
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "del", Par4: "192.168.2.0/24", Par5: "", Par6: ""},
 			// add
+			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.1.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.2.0/24", Par5: "dev", Par6: "eth6"},
-			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.3.0/24", Par5: "dev", Par6: "eth6"},
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ip", Par2: "route", Par3: "add", Par4: "192.168.4.0/24", Par5: "dev", Par6: "eth6"},
 			// Bring up new SAT to Ground connection, that should automatically add its route ( 192.168.1.0/24 at eth1)
 			tbMessages.LinuxCommand{Cmd: "sudo", Par1: "/sbin/ifconfig", Par2: "eth3", Par3: "up", Par4: "", Par5: "", Par6: ""},
@@ -677,12 +676,12 @@ func masterRecvThread(conn *net.UDPConn, recvControlChannel <-chan []byte) error
 
 		for {
 			recvBuffer := make([]byte, 3000)
-			length, oobn, flags, addr, err := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
-
+			// length, oobn, flags, addr, err := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
+			length, _, _, _, _ := connection.ReadMsgUDP(recvBuffer[0:], oobBuffer[0:])
 			masterReceiveCount++
 
-			fmt.Println(masterName, "\n=============== Count=", masterReceiveCount,
-				"\nRecv from", addr, "len=", length, "oobLen=", oobn, "flags=", flags, "ERR=", err)
+			//fmt.Println(masterName, " RCV Count=", masterReceiveCount,
+			//	" FROM", addr, "LEN=", length, "oobLen=", oobn, "FLAGS=", flags, "ERR=", err)
 
 			// Just add the received message to the RECV queue.
 			// processing is done inside the main()
@@ -834,27 +833,27 @@ func masterSendControlCmd(receiver tbMessages.NameId, mBody string) {
 //
 //=======================================================================
 func receiveRegisterMsg(msg *tbMessages.TBmessage) {
-	fmt.Println("REGISTER MSG FROM: ", msg.MsgSender)
+	// fmt.Println("REGISTER MSG FROM: ", msg.MsgSender)
 
 	// Unmarshal the message body
 	var newSatellite tbMessages.TBmgr
 	_ = tbJsonUtils.TBunmarshal(msg.MsgBody, &newSatellite)
 
-	fmt.Println(masterName, "SAT:", newSatellite.Name.Name, "STATUS:", newSatellite.Up, "ADDRESS:", newSatellite.Name.Address,
-		"CREATED:", newSatellite.Name.TimeCreated, "MSGSRCVD:", newSatellite.MsgsRcvd)
+	fmt.Println(masterName, "RCV from SAT:", newSatellite.Name.Name, "UP:", newSatellite.Up, "ADDRESS:", newSatellite.Name.Address,
+		"UP at:", newSatellite.Name.TimeCreated, "MSGS RCVD:", newSatellite.MsgsRcvd)
 
 	// in sliceOfSatellites, check if new one already there if yes update, otherwise append
 	knownSatellite := MasterLocateSatellite(sliceOfSatellites, newSatellite.Name.Name)
 	if knownSatellite != nil { // Update existing mgr/master record
-		fmt.Println(masterName, "UPDATE in sliceOfSatellites MGR=", knownSatellite.Name)
+		// fmt.Println(masterName, "UPDATE in sliceOfSatellites MGR=", knownSatellite.Name)
 		*knownSatellite = newSatellite
 	} else { // Add a new satellite
-		fmt.Println(masterName, "STORE in sliceOfSatellites MGR=", newSatellite.Name)
+		// fmt.Println(masterName, "STORE in sliceOfSatellites MGR=", newSatellite.Name)
 		newSatellite.Name.Terminate = false
 		sliceOfSatellites = append(sliceOfSatellites, newSatellite)
 	}
-	fmt.Println(masterName, "New sliceOfSatellites=", sliceOfSatellites)
-	fmt.Println(masterName, "LENGTH of sliceOfSatellites=", len(sliceOfSatellites))
+	//fmt.Println(masterName, "New sliceOfSatellites=", sliceOfSatellites)
+	// fmt.Println(masterName, "LENGTH of sliceOfSatellites=", len(sliceOfSatellites))
 }
 
 //============================================================================
@@ -880,9 +879,9 @@ func sendKeepAliveMsg() {
 
 	var names = ""
 	if len(sliceOfSatellites) > 0 {
-		fmt.Println(masterName, "sendKeepAlive: LENGTH of sliceOfSatellites=", len(sliceOfSatellites))
+		// fmt.Println(masterName, "sendKeepAlive: LENGTH of sliceOfSatellites=", len(sliceOfSatellites))
 		msgBody, _ := tbJsonUtils.TBmarshal(sliceOfSatellites)
-		fmt.Println(masterName, "sendKeepAlive: LENGTH of msgBody=", len(msgBody))
+		// fmt.Println(masterName, "sendKeepAlive: LENGTH of msgBody=", len(msgBody))
 		for mgrIndex := range sliceOfSatellites {
 			receiver := sliceOfSatellites[mgrIndex].Name
 			if receiver.Name != masterName { // Do not send to self
@@ -928,7 +927,7 @@ func sendRoutingUpdate() {
 		if receiver.Name == "SatD" {
 			satIndex = 3
 		}
-		fmt.Println(masterName, ": Sat Name=", receiver, "---", receiver.Name, "  satIndex=", satIndex)
+		//fmt.Println(masterName, ": Sat Name=", receiver, "---", receiver.Name, "  satIndex=", satIndex)
 		//fmt.Println(masterName, ": satIndex=", satIndex, "mgrIndex=", mgrIndex, "TimePosition=", TimePosition)
 		if receiver.Name != masterName && satIndex < 1000 { // Do not send to self
 			udpAddress := sliceOfSatellites[satIndexNumber].Name.Address

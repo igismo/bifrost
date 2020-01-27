@@ -1,4 +1,3 @@
-
 //*********************************************************************************/
 // NAME              REV  DATE       REMARKS			@
 // Goran Scuric      1.0  10222019  Initial design
@@ -14,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 )
+
 //=======================================================================
 // Early work to test some options for officeMaster console
 //=======================================================================
@@ -22,15 +22,15 @@ func startConsole(consoleInput <-chan string) {
 	go func(ch <-chan string) {
 		reader := bufio.NewReader(os.Stdin)
 		for {
-			swapinCommand  := flag.NewFlagSet("swapin", flag.ContinueOnError)
-			projectFlag    := swapinCommand.String("p", "",      "project")
-			experimentFlag := swapinCommand.String("e", "",      "experiment")
-			userFlag       := swapinCommand.String("u", "goran", "user")
+			swapinCommand := flag.NewFlagSet("swapin", flag.ContinueOnError)
+			projectFlag := swapinCommand.String("p", "", "project")
+			experimentFlag := swapinCommand.String("e", "", "experiment")
+			userFlag := swapinCommand.String("u", "goran", "user")
 
-			swapoutCommand    := flag.NewFlagSet("swapout", flag.ContinueOnError)
-			projectFlagOut    := swapoutCommand.String("p", "",      "-p <project>")
-			experimentFlagOut := swapoutCommand.String("e", "",      "-e <experiment>")
-			userFlagOut       := swapoutCommand.String("u", "goran", "user")
+			swapoutCommand := flag.NewFlagSet("swapout", flag.ContinueOnError)
+			projectFlagOut := swapoutCommand.String("p", "", "-p <project>")
+			experimentFlagOut := swapoutCommand.String("e", "", "-e <experiment>")
+			userFlagOut := swapoutCommand.String("u", "goran", "user")
 
 			commandOK := ""
 			s, err := reader.ReadString('\n')
@@ -57,6 +57,10 @@ func startConsole(consoleInput <-chan string) {
 				break
 			case "swapin":
 				var _ = swapinCommand.Parse(sa[1:])
+				break
+			case "step":
+				RotationEnabled = false
+				sendRoutingUpdate()
 				break
 			case "stop":
 				RotationEnabled = false
@@ -86,63 +90,75 @@ func startConsole(consoleInput <-chan string) {
 				if swapinCommand.Parsed() {
 					if *projectFlag == "" {
 						fmt.Println("SwapIn: Please supply the project name")
-					} else {fmt.Printf("SwapIn p=%q", *projectFlag)}
+					} else {
+						fmt.Printf("SwapIn p=%q", *projectFlag)
+					}
 
 					if *experimentFlag == "" {
 						fmt.Println("SwapIn: Please supply experiment name")
-					} else {fmt.Printf("SwapIn e=%q", *experimentFlag)}
+					} else {
+						fmt.Printf("SwapIn e=%q", *experimentFlag)
+					}
 					if *userFlag == "" {
 						fmt.Println("SwapIn: Please supply the user name.")
-					} else {fmt.Printf("Swapin u=%q", *userFlag)}
-					sendSwapInMsg(*projectFlag, *experimentFlag,*userFlag, "")
+					} else {
+						fmt.Printf("Swapin u=%q", *userFlag)
+					}
+					sendSwapInMsg(*projectFlag, *experimentFlag, *userFlag, "")
 				}
 				if swapoutCommand.Parsed() {
 					if *projectFlagOut == "" {
 						fmt.Println("SwapOut: Please supply the project name")
-					} else {fmt.Printf("\nSwapOut p=%q", *projectFlagOut)}
+					} else {
+						fmt.Printf("\nSwapOut p=%q", *projectFlagOut)
+					}
 					if *experimentFlagOut == "" {
 						fmt.Println("SwapOut: Please supply the experiment name")
-					} else {fmt.Printf("\nSwapOut e=%q", *experimentFlagOut)}
+					} else {
+						fmt.Printf("\nSwapOut e=%q", *experimentFlagOut)
+					}
 
 					fmt.Printf("\nSwapOut u=%q", *userFlagOut)
-					sendSwapOutMsg(*projectFlagOut, *experimentFlagOut,*userFlagOut, "")
+					sendSwapOutMsg(*projectFlagOut, *experimentFlagOut, *userFlagOut, "")
 				}
 			}
 		} // end of for ever
 		//close(ch)
 	}(consoleInput)
 }
+
 //=======================================================================
 //
 //=======================================================================
-func sendSwapInMsg(project, experiment,userName, fileName string) {
-//	expMgrName := tbConfig.BifrostMasterURL
-//	expMgrFullName := TBmasterLocateMngr(masterSliceOfMgrs, expMgrName)
-//	if expMgrFullName != nil && expMgrFullName.Up == true {
-//		swapIn := tbMessages.SwapIn{Project:project, Experiment:experiment,
-//						UserName:userName, FileName: fileName}
-//		messageBody, _ := tbJsonUtils.TBmarshal(swapIn)
-//		newMsg := tbMsgUtils.TBswapinMsg(masterFullName, expMgrFullName.Name, string(messageBody))
-//
-//		tbMsgUtils.TBsendMsgOut(newMsg, expMgrFullName.Name.Address, masterConnection)
-//	} else {
-//		fmt.Println("Console: Exp Master not available - try later")
-//	}
+func sendSwapInMsg(project, experiment, userName, fileName string) {
+	//	expMgrName := tbConfig.BifrostMasterURL
+	//	expMgrFullName := TBmasterLocateMngr(masterSliceOfMgrs, expMgrName)
+	//	if expMgrFullName != nil && expMgrFullName.Up == true {
+	//		swapIn := tbMessages.SwapIn{Project:project, Experiment:experiment,
+	//						UserName:userName, FileName: fileName}
+	//		messageBody, _ := tbJsonUtils.TBmarshal(swapIn)
+	//		newMsg := tbMsgUtils.TBswapinMsg(masterFullName, expMgrFullName.Name, string(messageBody))
+	//
+	//		tbMsgUtils.TBsendMsgOut(newMsg, expMgrFullName.Name.Address, masterConnection)
+	//	} else {
+	//		fmt.Println("Console: Exp Master not available - try later")
+	//	}
 }
+
 //=======================================================================
 //
 //=======================================================================
-func sendSwapOutMsg(project, experiment,userName, fileName string) {
-//	expMgrName := tbConfig.BifrostMasterURL
-//	expMgrFullName := TBmasterLocateMngr(masterSliceOfMgrs, expMgrName)
-//	if expMgrFullName != nil && expMgrFullName.Up == true {
-//		swapOut := tbMessages.SwapOut{Project:project, Experiment:experiment,
-//			UserName:userName, FileName: fileName}
-//		messageBody, _ := tbJsonUtils.TBmarshal(swapOut)
-//		newMsg := tbMsgUtils.TBswapoutMsg(masterFullName, expMgrFullName.Name, string(messageBody))
-//
-//		tbMsgUtils.TBsendMsgOut(newMsg, expMgrFullName.Name.Address, masterConnection)
-//	} else {
-//		fmt.Println("Console: Exp Master not available - try later")
-//	}
+func sendSwapOutMsg(project, experiment, userName, fileName string) {
+	//	expMgrName := tbConfig.BifrostMasterURL
+	//	expMgrFullName := TBmasterLocateMngr(masterSliceOfMgrs, expMgrName)
+	//	if expMgrFullName != nil && expMgrFullName.Up == true {
+	//		swapOut := tbMessages.SwapOut{Project:project, Experiment:experiment,
+	//			UserName:userName, FileName: fileName}
+	//		messageBody, _ := tbJsonUtils.TBmarshal(swapOut)
+	//		newMsg := tbMsgUtils.TBswapoutMsg(masterFullName, expMgrFullName.Name, string(messageBody))
+	//
+	//		tbMsgUtils.TBsendMsgOut(newMsg, expMgrFullName.Name.Address, masterConnection)
+	//	} else {
+	//		fmt.Println("Console: Exp Master not available - try later")
+	//	}
 }
